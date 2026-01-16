@@ -1,3 +1,4 @@
+import 'package:evently/Core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,6 +10,10 @@ class EventlyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: "Evently",
+      routerConfig: AppRouter.router,
+    );
   }
 }
