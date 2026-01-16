@@ -25,7 +25,7 @@ abstract final class AppStyles {
       color: AppColor.blue,
     );
   }
-  TextStyle textStyleMedium18() {
+  static TextStyle textStyleMedium18() {
     return TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w500,
