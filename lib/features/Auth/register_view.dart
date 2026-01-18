@@ -3,14 +3,13 @@ import 'package:evently/Core/Widgets/custom_text_form_field.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
-import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class LogInView extends StatelessWidget {
-  const LogInView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +27,35 @@ class LogInView extends StatelessWidget {
                 Image.asset(AppAssets.imagesAppLogo),
                 SizedBox(height: size.height * 0.06),
                 Text(
-                  "Login to your account",
+                  "Create your account",
                   textAlign: TextAlign.start,
                   style: AppStyles.textStyleSemiBold24(),
                 ),
                 SizedBox(height: size.height * 0.03),
+                CustomTextFormField(
+                  hintText: "Enter your name",
+                  hintStyle: AppStyles.textStyleRegular14().copyWith(
+                    color: AppColor.grey,
+                  ),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      top: 12,
+                      bottom: 12,
+                      right: 1.5,
+                    ),
+                    child: SvgPicture.asset(
+                      AppAssets.imagesIcPerson,
+                      height: 24,
+                      width: 24,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: AppColor.white,
+                  border: AppHelper.outlineInputBorder(),
+                  enabledBorder: AppHelper.outlineInputBorder(),
+                ),
+                SizedBox(height: size.height * 0.02),
                 CustomTextFormField(
                   hintText: "Enter your email",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
@@ -84,17 +107,35 @@ class LogInView extends StatelessWidget {
                   border: AppHelper.outlineInputBorder(),
                   enabledBorder: AppHelper.outlineInputBorder(),
                 ),
-                SizedBox(height: size.height * 0.001),
-                Text(
-                  "Forget Password?",
-                  textAlign: TextAlign.end,
-
-                  style: AppStyles.textStyleSemiBold14().copyWith(
-                    color: AppColor.blue,
-                    decoration: TextDecoration.underline,
+                SizedBox(height: size.height * 0.02),
+                CustomTextFormField(
+                  hintText: "Confirm your password",
+                  hintStyle: AppStyles.textStyleRegular14().copyWith(
+                    color: AppColor.grey,
                   ),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      top: 12,
+                      bottom: 12,
+                      right: 1.5,
+                    ),
+                    child: SvgPicture.asset(
+                      AppAssets.imagesIcLock,
+                      height: 24,
+                      width: 24,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.visibility_off_outlined),
+                  ),
+                  filled: true,
+                  fillColor: AppColor.white,
+                  border: AppHelper.outlineInputBorder(),
+                  enabledBorder: AppHelper.outlineInputBorder(),
                 ),
-                SizedBox(height: size.height * 0.06),
+                SizedBox(height: size.height * 0.064),
                 CustomButton(
                   onTap: () {
                     // GoRouter.of(
@@ -106,10 +147,13 @@ class LogInView extends StatelessWidget {
                   height: 48,
                   color: AppColor.blue,
                   child: Center(
-                    child: Text("Login", style: AppStyles.textStyleMedium20()),
+                    child: Text(
+                      "Sign up",
+                      style: AppStyles.textStyleMedium20(),
+                    ),
                   ),
                 ),
-                SizedBox(height: size.height * 0.06),
+                SizedBox(height: size.height * 0.024),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -119,7 +163,7 @@ class LogInView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        GoRouter.of(context).push(AppRouter.register);
+                        GoRouter.of(context).pop();
                       },
                       child: Text(
                         "Signup",
@@ -149,7 +193,7 @@ class LogInView extends StatelessWidget {
                       SvgPicture.asset(AppAssets.imagesIcGmail),
                       SizedBox(width: 16),
                       Text(
-                        "Login with Google",
+                        "Sign up with Google",
                         style: AppStyles.textStyleMedium18(),
                       ),
                     ],
