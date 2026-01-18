@@ -85,13 +85,17 @@ class LogInView extends StatelessWidget {
                   enabledBorder: AppHelper.outlineInputBorder(),
                 ),
                 SizedBox(height: size.height * 0.001),
-                Text(
-                  "Forget Password?",
-                  textAlign: TextAlign.end,
-
-                  style: AppStyles.textStyleSemiBold14().copyWith(
-                    color: AppColor.blue,
-                    decoration: TextDecoration.underline,
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push(AppRouter.forgetPassword);
+                  },
+                  child: Text(
+                    "Forget Password?",
+                    textAlign: TextAlign.end,
+                    style: AppStyles.textStyleSemiBold14().copyWith(
+                      color: AppColor.blue,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
                 SizedBox(height: size.height * 0.06),
