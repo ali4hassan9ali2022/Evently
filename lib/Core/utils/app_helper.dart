@@ -1,5 +1,7 @@
 import 'package:evently/Core/utils/app_assets.dart';
+import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Models/on_boarding_model.dart';
+import 'package:flutter/material.dart';
 
 abstract final class AppHelper {
   static List<OnBoardingModel> onBoardingList = [
@@ -22,4 +24,11 @@ abstract final class AppHelper {
           "Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories.",
     ),
   ];
+
+  static OutlineInputBorder outlineInputBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(width: 1, color: AppColor.lightGrey),
+    );
+  }
 }
