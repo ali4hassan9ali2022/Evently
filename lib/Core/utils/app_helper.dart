@@ -1,6 +1,8 @@
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
+import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/on_boarding_model.dart';
+import 'package:evently/features/Home/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppHelper {
@@ -31,4 +33,38 @@ abstract final class AppHelper {
       borderSide: BorderSide(width: 1, color: AppColor.lightGrey),
     );
   }
+
+  static List<Widget> pages = [
+    HomeScreen(),
+    Scaffold(backgroundColor: Colors.blue),
+    Scaffold(backgroundColor: Colors.black),
+  ];
+  static List<CategoryModel> categories = [
+    CategoryModel(name: "all", imagePath: "", icon: Icons.border_all_rounded),
+    CategoryModel(
+      name: "Sports",
+      imagePath: AppAssets.imagesSport,
+      icon: Icons.bike_scooter,
+    ),
+    CategoryModel(
+      name: "BookingClub",
+      imagePath: AppAssets.imagesBookClub,
+      icon: Icons.menu_book,
+    ),
+    CategoryModel(
+      name: "Birthday",
+      imagePath: AppAssets.imagesBirthday,
+      icon: Icons.cake,
+    ),
+    CategoryModel(
+      name: "Meeting",
+      imagePath: AppAssets.imagesMeeting,
+      icon: Icons.meeting_room,
+    ),
+    CategoryModel(
+      name: "Exhibition",
+      imagePath: AppAssets.imagesExhibition,
+      icon: Icons.access_time_filled_rounded,
+    ),
+  ];
 }

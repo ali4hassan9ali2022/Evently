@@ -101,9 +101,7 @@ class LogInView extends StatelessWidget {
                 SizedBox(height: size.height * 0.06),
                 CustomButton(
                   onTap: () {
-                    // GoRouter.of(
-                    //   context,
-                    // ).pushReplacement(AppRouter.mainOnBoarding);
+                    GoRouter.of(context).pushReplacement(AppRouter.mainView);
                   },
                   width: double.infinity,
                   borderRadius: 16,
