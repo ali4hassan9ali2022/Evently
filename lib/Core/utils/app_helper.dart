@@ -3,6 +3,7 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/on_boarding_model.dart';
 import 'package:evently/features/Home/Screens/home_screen.dart';
+import 'package:evently/features/Settings/setting_view.dart';
 import 'package:evently/features/favorite/favorite_view.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ abstract final class AppHelper {
   static List<Widget> pages = [
     HomeScreen(),
     FavoriteView(),
-    Scaffold(backgroundColor: Colors.black),
+    SettingView(),
   ];
   static List<CategoryModel> categories = [
     CategoryModel(name: "all", imagePath: "", icon: Icons.border_all_rounded),

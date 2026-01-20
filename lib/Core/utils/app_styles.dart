@@ -25,11 +25,11 @@ abstract final class AppStyles {
       color: AppColor.black,
     );
   }
-  static TextStyle textStyleMedium16() {
+  static TextStyle textStyleMedium16({Color? color}) {
     return TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w500,
-      color: AppColor.blue,
+      color: color ?? AppColor.blue,
     );
   }
   static TextStyle textStyleMedium18() {
@@ -54,11 +54,11 @@ abstract final class AppStyles {
       color: AppColor.blue,
     );
   }
-  static TextStyle textStyleSemiBold20() {
+  static TextStyle textStyleSemiBold20({Color? color}) {
     return TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
-      color: AppColor.grey,
+      color: color ?? AppColor.grey,
     );
   }
   static TextStyle textStyleSemiBold24() {

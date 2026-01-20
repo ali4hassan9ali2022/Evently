@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_single_quotes
 abstract final class AppAssets {
-
-
   /// Assets for imagesAppLogo
   /// assets/images/app_logo.png
   static const String imagesAppLogo = "assets/images/app_logo.png";
@@ -125,4 +123,6 @@ abstract final class AppAssets {
   static const String imagesBack = "assets/images/Back.svg";
   static const String imagesSun = "assets/images/sun.svg";
   static const String imagesSearch = "assets/images/search.svg";
+  static const String imageArrowRight = "assets/images/arrow-right.svg";
+  static const String imageLogout = "assets/images/logout.svg";
 }
