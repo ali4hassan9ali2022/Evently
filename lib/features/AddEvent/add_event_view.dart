@@ -6,7 +6,7 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/category_model.dart';
-import 'package:evently/features/AddEvently/widget/choose_time_date_widget.dart';
+import 'package:evently/features/AddEvent/widget/choose_time_date_widget.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:flutter/material.dart';
 

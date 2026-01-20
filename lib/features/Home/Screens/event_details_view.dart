@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
+import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,12 @@ class EventDetailsView extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      SvgPicture.asset(AppAssets.imageEdit),
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(AppRouter.editEvent);
+                        },
+                        child: SvgPicture.asset(AppAssets.imageEdit),
+                      ),
                       SizedBox(width: 8),
                       SvgPicture.asset(AppAssets.imageDelete),
                     ],

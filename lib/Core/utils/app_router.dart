@@ -1,8 +1,9 @@
 import 'package:evently/Models/event_model.dart';
-import 'package:evently/features/AddEvently/add_event_view.dart';
+import 'package:evently/features/AddEvent/add_event_view.dart';
 import 'package:evently/features/Auth/forget_password_view.dart';
 import 'package:evently/features/Auth/log_in_view.dart';
 import 'package:evently/features/Auth/register_view.dart';
+import 'package:evently/features/EditEvent/edit_event_view.dart';
 import 'package:evently/features/Home/Screens/event_details_view.dart';
 import 'package:evently/features/Home/main_view.dart';
 import 'package:evently/features/OnBoarding/main_on_boarding.dart';
@@ -20,6 +21,7 @@ abstract final class AppRouter {
   static const String mainView = "/MainView";
   static const String addEventlyView = "/AddEventlyView";
   static const String eventDetails = "/EventDetailsView";
+  static const String editEvent = "/EditEventView";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => SplahView()),
@@ -48,6 +50,10 @@ abstract final class AppRouter {
           }
           return EventDetailsView(eventModel: eventModel);
         },
+      ),
+       GoRoute(
+        path: editEvent,
+        builder: (context, state) => EditEventView(),
       ),
     ],
   );
