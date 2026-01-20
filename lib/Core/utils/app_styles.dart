@@ -18,6 +18,13 @@ abstract final class AppStyles {
     );
   }
   //! Medium => 500
+  static TextStyle textStyleMedium14() {
+    return TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: AppColor.black,
+    );
+  }
   static TextStyle textStyleMedium16() {
     return TextStyle(
       fontSize: 16,
