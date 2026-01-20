@@ -3,6 +3,7 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/on_boarding_model.dart';
 import 'package:evently/features/Home/Screens/home_screen.dart';
+import 'package:evently/features/favorite/favorite_view.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppHelper {
@@ -27,16 +28,16 @@ abstract final class AppHelper {
     ),
   ];
 
-  static OutlineInputBorder outlineInputBorder() {
+  static OutlineInputBorder outlineInputBorder({Color? color}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(width: 1, color: AppColor.lightGrey),
+      borderSide: BorderSide(width: 1, color: color ?? AppColor.lightGrey),
     );
   }
 
   static List<Widget> pages = [
     HomeScreen(),
-    Scaffold(backgroundColor: Colors.blue),
+    FavoriteView(),
     Scaffold(backgroundColor: Colors.black),
   ];
   static List<CategoryModel> categories = [

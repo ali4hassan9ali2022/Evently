@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 abstract final class AppStyles {
   //! Regular => 400
-  static TextStyle textStyleRegular14() {
+  static TextStyle textStyleRegular14({Color? color}) {
     return TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
-      color: AppColor.black,
+      color: color ?? AppColor.black,
     );
   }
   static TextStyle textStyleRegular16() {

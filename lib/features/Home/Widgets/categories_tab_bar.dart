@@ -1,15 +1,10 @@
-import 'package:evently/Core/utils/app_color.dart';
-import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Models/category_model.dart';
+import 'package:evently/features/Home/Widgets/category_widget.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesTabBar extends StatefulWidget {
-  const CategoriesTabBar({
-    super.key,
-    required this.categories,
-    required this.onChanged,
-  });
-  final List<CategoryModel> categories;
+  const CategoriesTabBar({super.key, required this.onChanged});
   final Function(CategoryModel) onChanged;
   @override
   State<CategoriesTabBar> createState() => _CategoriesTabBarState();
@@ -20,7 +15,7 @@ class _CategoriesTabBarState extends State<CategoriesTabBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: widget.categories.length,
+      length: AppHelper.categories.length,
       child: TabBar(
         dividerColor: Colors.transparent,
         isScrollable: true,
@@ -28,37 +23,24 @@ class _CategoriesTabBarState extends State<CategoriesTabBar> {
         tabAlignment: TabAlignment.start,
         onTap: (index) {
           selectedIndex = index;
-          widget.onChanged(widget.categories[index]);
+          widget.onChanged(AppHelper.categories[index]);
           setState(() {});
         },
-        tabs: widget.categories.map(mapCategoryToWidget).toList(),
-      ),
-    );
-  }
-
-  Widget mapCategoryToWidget(CategoryModel category) {
-    bool isSelected = selectedIndex == widget.categories.indexOf(category);
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColor.blue : AppColor.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            category.icon,
-            color: isSelected ? AppColor.white : AppColor.blue,
-          ),
-          SizedBox(width: 8),
-          Text(
-            category.name,
-            style: AppStyles.textStyleMedium18().copyWith(
-              color: isSelected ? AppColor.white : AppColor.blue,
-            ),
-          ),
-        ],
+        tabs: List.generate(AppHelper.categories.length, (index) {
+          return CategoryWidget(
+            category: AppHelper.categories[index],
+            selectedIndex: selectedIndex,
+            index: index,
+          );
+        }),
       ),
     );
   }
 }
+
+
+
+
+//  AppHelper.categories.map((category) {
+//           return CategoryItem(category: category, selectedIndex: selectedIndex);
+//         }).toList(),

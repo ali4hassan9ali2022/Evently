@@ -124,4 +124,5 @@ abstract final class AppAssets {
   static const String imagesForgetPassword = "assets/images/forgetPassword.png";
   static const String imagesBack = "assets/images/Back.svg";
   static const String imagesSun = "assets/images/sun.svg";
+  static const String imagesSearch = "assets/images/search.svg";
 }
