@@ -3,22 +3,21 @@ import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/Widgets/custom_text_form_field.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
-
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/category_model.dart';
+import 'package:evently/features/AddEvently/widget/choose_time_date_widget.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class AddEventlyView extends StatefulWidget {
-  const AddEventlyView({super.key});
+class AddEventView extends StatefulWidget {
+  const AddEventView({super.key});
 
   @override
-  State<AddEventlyView> createState() => _AddEventlyViewState();
+  State<AddEventView> createState() => _AddEventViewState();
 }
 
-class _AddEventlyViewState extends State<AddEventlyView> {
+class _AddEventViewState extends State<AddEventView> {
   CategoryModel selectCategory = AppHelper.customCategories[0];
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -148,41 +147,6 @@ class _AddEventlyViewState extends State<AddEventlyView> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ChooseTimeAndDateWidget extends StatelessWidget {
-  const ChooseTimeAndDateWidget({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.dec,
-    this.onTap,
-  });
-  final String icon;
-  final String title;
-  final String dec;
-  final Function()? onTap;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(icon, color: AppColor.blue),
-        SizedBox(width: 8),
-        Text(title, style: AppStyles.textStyleMedium16(color: AppColor.black)),
-        Spacer(),
-        InkWell(
-          onTap: onTap,
-          child: Text(
-            dec,
-            style: AppStyles.textStyleRegular14(color: AppColor.blue).copyWith(
-              decoration: TextDecoration.underline,
-              decorationColor: AppColor.blue,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

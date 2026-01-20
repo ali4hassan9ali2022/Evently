@@ -32,11 +32,11 @@ abstract final class AppStyles {
       color: color ?? AppColor.blue,
     );
   }
-  static TextStyle textStyleMedium18() {
+  static TextStyle textStyleMedium18({Color? color}) {
     return TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w500,
-      color: AppColor.blue,
+      color: color ?? AppColor.blue,
     );
   }
   static TextStyle textStyleMedium20() {

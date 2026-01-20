@@ -1,13 +1,11 @@
-import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Models/event_model.dart';
 import 'package:flutter/material.dart';
 
 class EventlyWidget extends StatelessWidget {
-  const EventlyWidget({
-    super.key,
-  });
-
+  const EventlyWidget({super.key, required this.evvent});
+  final EventModel evvent;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +17,7 @@ class EventlyWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              AppAssets.imagesBirthday1,
+              evvent.categoryModel.imagePath,
               fit: BoxFit.fill,
               height: double.infinity,
               width: double.infinity,
@@ -38,7 +36,7 @@ class EventlyWidget extends StatelessWidget {
                     color: AppColor.offWhite,
                   ),
                   child: Text(
-                    "21 Jan",
+                    "${evvent.dateTime.day} Jan",
                     textAlign: TextAlign.start,
                     style: AppStyles.textStyleRegular16().copyWith(
                       color: AppColor.blue,
@@ -60,13 +58,18 @@ class EventlyWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "This is a Birthday Party ",
+                          evvent.title,
                           style: AppStyles.textStyleMedium14(),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Icon(Icons.favorite_border, color: AppColor.blue),
+                      Icon(
+                        evvent.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: AppColor.blue,
+                      ),
                     ],
                   ),
                 ),

@@ -125,4 +125,6 @@ abstract final class AppAssets {
   static const String imagesSearch = "assets/images/search.svg";
   static const String imageArrowRight = "assets/images/arrow-right.svg";
   static const String imageLogout = "assets/images/logout.svg";
+  static const String imageDelete = "assets/images/delete.svg";
+  static const String imageEdit = "assets/images/edit.svg";
 }
