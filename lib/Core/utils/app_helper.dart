@@ -36,37 +36,50 @@ abstract final class AppHelper {
     );
   }
 
-  static List<Widget> pages = [
-    HomeScreen(),
-    FavoriteView(),
-    SettingView(),
+  static List<Widget> pages = [HomeScreen(), FavoriteView(), SettingView()];
+  static CategoryModel all = CategoryModel(
+    name: "all",
+    imagePath: "",
+    icon: Icons.border_all_rounded,
+  );
+  static CategoryModel sports = CategoryModel(
+    name: "Sports",
+    imagePath: AppAssets.imagesSport1,
+    icon: Icons.bike_scooter,
+  );
+  static CategoryModel book = CategoryModel(
+    name: "BookingClub",
+    imagePath: AppAssets.imagesBookClub1,
+    icon: Icons.menu_book,
+  );
+  static CategoryModel birthday = CategoryModel(
+    name: "Birthday",
+    imagePath: AppAssets.imagesBirthday1,
+    icon: Icons.cake,
+  );
+  static CategoryModel meet = CategoryModel(
+    name: "Meeting",
+    imagePath: AppAssets.imagesMeeting1,
+    icon: Icons.meeting_room,
+  );
+  static CategoryModel exhibition = CategoryModel(
+    name: "Exhibition",
+    imagePath: AppAssets.imagesExhibition1,
+    icon: Icons.access_time_filled_rounded,
+  );
+  static List<CategoryModel> allCategories = [
+    all,
+    sports,
+    book,
+    birthday,
+    meet,
+    exhibition,
   ];
-  static List<CategoryModel> categories = [
-    CategoryModel(name: "all", imagePath: "", icon: Icons.border_all_rounded),
-    CategoryModel(
-      name: "Sports",
-      imagePath: AppAssets.imagesSport,
-      icon: Icons.bike_scooter,
-    ),
-    CategoryModel(
-      name: "BookingClub",
-      imagePath: AppAssets.imagesBookClub,
-      icon: Icons.menu_book,
-    ),
-    CategoryModel(
-      name: "Birthday",
-      imagePath: AppAssets.imagesBirthday,
-      icon: Icons.cake,
-    ),
-    CategoryModel(
-      name: "Meeting",
-      imagePath: AppAssets.imagesMeeting,
-      icon: Icons.meeting_room,
-    ),
-    CategoryModel(
-      name: "Exhibition",
-      imagePath: AppAssets.imagesExhibition,
-      icon: Icons.access_time_filled_rounded,
-    ),
+  static List<CategoryModel> customCategories = [
+    sports,
+    book,
+    birthday,
+    meet,
+    exhibition,
   ];
 }

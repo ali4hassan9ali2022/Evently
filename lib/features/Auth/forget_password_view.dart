@@ -1,10 +1,9 @@
+import 'package:evently/Core/Widgets/app_bar_widget.dart';
 import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 class ForgetPasswordView extends StatelessWidget {
   const ForgetPasswordView({super.key});
@@ -19,24 +18,8 @@ class ForgetPasswordView extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: size.height * 0.023),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      GoRouter.of(context).pop();
-                    },
-                    child: SvgPicture.asset(AppAssets.imagesBack),
-                  ),
-                  Expanded(
-                    child: Text(
-                      "Forget Password",
-                      textAlign: TextAlign.center,
-                      style: AppStyles.textStyleMedium18().copyWith(
-                        color: AppColor.black,
-                      ),
-                    ),
-                  ),
-                ],
+              AppBarWidget(
+                title: "Forget Password",
               ),
               SizedBox(height: size.height * 0.08),
               Image.asset(AppAssets.imagesForgetPassword, fit: BoxFit.fill),
@@ -65,3 +48,4 @@ class ForgetPasswordView extends StatelessWidget {
     );
   }
 }
+

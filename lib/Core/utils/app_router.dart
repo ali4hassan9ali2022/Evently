@@ -1,3 +1,4 @@
+import 'package:evently/features/AddEvently/add_evently_view.dart';
 import 'package:evently/features/Auth/forget_password_view.dart';
 import 'package:evently/features/Auth/log_in_view.dart';
 import 'package:evently/features/Auth/register_view.dart';
@@ -14,6 +15,7 @@ abstract final class AppRouter {
   static const String register = "/RegisterView";
   static const String forgetPassword = "/ForgetPasswordView";
   static const String mainView = "/MainView";
+  static const String addEventlyView = "/AddEventlyView";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => SplahView()),
@@ -29,6 +31,7 @@ abstract final class AppRouter {
         builder: (context, state) => ForgetPasswordView(),
       ),
       GoRoute(path: mainView, builder: (context, state) => MainView()),
+      GoRoute(path: addEventlyView, builder: (context, state) => AddEventlyView()),
     ],
   );
 }

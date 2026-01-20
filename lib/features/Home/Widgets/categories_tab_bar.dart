@@ -1,11 +1,11 @@
-import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/features/Home/Widgets/category_widget.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesTabBar extends StatefulWidget {
-  const CategoriesTabBar({super.key, required this.onChanged});
+  const CategoriesTabBar({super.key, required this.onChanged, required this.category});
   final Function(CategoryModel) onChanged;
+  final List<CategoryModel> category;
   @override
   State<CategoriesTabBar> createState() => _CategoriesTabBarState();
 }
@@ -15,20 +15,21 @@ class _CategoriesTabBarState extends State<CategoriesTabBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: AppHelper.categories.length,
+      length: widget.category.length,
       child: TabBar(
+        labelPadding: EdgeInsets.only(right: 8),
         dividerColor: Colors.transparent,
         isScrollable: true,
         indicatorColor: Colors.transparent,
         tabAlignment: TabAlignment.start,
         onTap: (index) {
           selectedIndex = index;
-          widget.onChanged(AppHelper.categories[index]);
+          widget.onChanged(widget.category[index]);
           setState(() {});
         },
-        tabs: List.generate(AppHelper.categories.length, (index) {
+        tabs: List.generate(widget.category.length, (index) {
           return CategoryWidget(
-            category: AppHelper.categories[index],
+            category: widget.category[index],
             selectedIndex: selectedIndex,
             index: index,
           );
