@@ -163,10 +163,6 @@ class _RegisterViewState extends State<RegisterView> {
                 CustomButton(
                   onTap: () async {
                     await cretateAccount();
-                    await GoRouter.of(
-                      context,
-                    ).pushReplacement(AppRouter.mainView);
-                    CustomToastWidget.showSuccessToast("Register successfully");
                   },
                   width: double.infinity,
                   borderRadius: 16,
@@ -241,13 +237,15 @@ class _RegisterViewState extends State<RegisterView> {
             password: password.text,
           );
       log(credential.user!.uid);
-      UserModel userModel = UserModel(
+      UserModel.currentUser = UserModel(
         userId: credential.user!.uid,
         name: name.text,
         email: emailAddress.text,
       );
-      await addUser(userModel: userModel);
-      log(userModel.toString());
+      await addUser(userModel: UserModel.currentUser!);
+      log(UserModel.currentUser.toString());
+      await GoRouter.of(context).pushReplacement(AppRouter.mainView);
+      CustomToastWidget.showSuccessToast("Register successfully");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         CustomToastWidget.showErrorToast("The password provided is too weak.");

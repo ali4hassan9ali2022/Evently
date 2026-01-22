@@ -1,17 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/Widgets/custom_text_form_field.dart';
+import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class LogInView extends StatelessWidget {
+class LogInView extends StatefulWidget {
   const LogInView({super.key});
 
+  @override
+  State<LogInView> createState() => _LogInViewState();
+}
+
+class _LogInViewState extends State<LogInView> {
+  TextEditingController emailAddress = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -34,6 +45,8 @@ class LogInView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.03),
                 CustomTextFormField(
+                  controller: emailAddress,
+                  keyboardType: TextInputType.emailAddress,
                   hintText: "Enter your email",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
                     color: AppColor.grey,
@@ -58,6 +71,8 @@ class LogInView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.02),
                 CustomTextFormField(
+                  controller: password,
+                  keyboardType: TextInputType.visiblePassword,
                   hintText: "Enter your password",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
                     color: AppColor.grey,
@@ -100,8 +115,8 @@ class LogInView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.06),
                 CustomButton(
-                  onTap: () {
-                    GoRouter.of(context).pushReplacement(AppRouter.mainView);
+                  onTap: () async {
+                    await logIn();
                   },
                   width: double.infinity,
                   borderRadius: 16,
@@ -163,5 +178,30 @@ class LogInView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  logIn() async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddress.text.trim(),
+        password: password.text.trim(),
+      );
+      UserModel.currentUser = await getUser(userId: credential.user!.uid);
+      if (!mounted) return;
+      GoRouter.of(context).pushReplacement(AppRouter.mainView);
+      CustomToastWidget.showSuccessToast("Login successfully");
+    } on FirebaseAuthException catch (e) {
+      CustomToastWidget.showErrorToast(e.message ?? "Auth error");
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+    }
+  }
+
+  Future<UserModel> getUser({required String userId}) async {
+    var user = FirebaseFirestore.instance.collection('user');
+    DocumentSnapshot snapshot = await user.doc(userId).get();
+    Map<String, dynamic> json = snapshot.data() as Map<String, dynamic>;
+    UserModel userModel = UserModel.fromJson(json);
+    return userModel;
   }
 }

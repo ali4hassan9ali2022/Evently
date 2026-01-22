@@ -2,6 +2,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Models/user_model.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:evently/features/Home/Widgets/evently_list_view.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +31,13 @@ class HomeScreen extends StatelessWidget {
                       style: AppStyles.textStyleRegular14(),
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      "John Safwat",
-                      style: AppStyles.textStyleMedium20().copyWith(
-                        color: AppColor.black,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        UserModel.currentUser!.name,
+                        style: AppStyles.textStyleMedium20().copyWith(
+                          color: AppColor.black,
+                        ),
                       ),
                     ),
                   ],
@@ -73,7 +77,8 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             CategoriesTabBar(
               category: AppHelper.allCategories,
-              onChanged: (value) {}),
+              onChanged: (value) {},
+            ),
             SizedBox(height: size.height * 0.03),
             Expanded(child: EventlyListView()),
           ],
