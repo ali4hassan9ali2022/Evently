@@ -1,16 +1,32 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/Widgets/custom_text_form_field.dart';
+import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
+import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class RegisterView extends StatelessWidget {
+class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
+  TextEditingController name = TextEditingController();
+  TextEditingController emailAddress = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController passwordConfirm = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -33,6 +49,8 @@ class RegisterView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.03),
                 CustomTextFormField(
+                  controller: name,
+                  keyboardType: TextInputType.name,
                   hintText: "Enter your name",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
                     color: AppColor.grey,
@@ -57,6 +75,8 @@ class RegisterView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.02),
                 CustomTextFormField(
+                  controller: emailAddress,
+                  keyboardType: TextInputType.emailAddress,
                   hintText: "Enter your email",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
                     color: AppColor.grey,
@@ -81,6 +101,8 @@ class RegisterView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.02),
                 CustomTextFormField(
+                  controller: password,
+                  keyboardType: TextInputType.visiblePassword,
                   hintText: "Enter your password",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
                     color: AppColor.grey,
@@ -109,6 +131,8 @@ class RegisterView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.02),
                 CustomTextFormField(
+                  controller: passwordConfirm,
+                  keyboardType: TextInputType.visiblePassword,
                   hintText: "Confirm your password",
                   hintStyle: AppStyles.textStyleRegular14().copyWith(
                     color: AppColor.grey,
@@ -137,10 +161,12 @@ class RegisterView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.064),
                 CustomButton(
-                  onTap: () {
-                    // GoRouter.of(
-                    //   context,
-                    // ).pushReplacement(AppRouter.mainOnBoarding);
+                  onTap: () async {
+                    await cretateAccount();
+                    await GoRouter.of(
+                      context,
+                    ).pushReplacement(AppRouter.mainView);
+                    CustomToastWidget.showSuccessToast("Register successfully");
                   },
                   width: double.infinity,
                   borderRadius: 16,
@@ -206,4 +232,43 @@ class RegisterView extends StatelessWidget {
       ),
     );
   }
+
+  cretateAccount() async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailAddress.text,
+            password: password.text,
+          );
+      log(credential.user!.uid);
+      UserModel userModel = UserModel(
+        userId: credential.user!.uid,
+        name: name.text,
+        email: emailAddress.text,
+      );
+      await addUser(userModel: userModel);
+      log(userModel.toString());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        CustomToastWidget.showErrorToast("The password provided is too weak.");
+      } else if (e.code == 'email-already-in-use') {
+        CustomToastWidget.showErrorToast(
+          "The account already exists for that email.",
+        );
+      } else {
+        CustomToastWidget.showErrorToast("Something went wrong.");
+      }
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+    }
+  }
+}
+
+addUser({required UserModel userModel}) async {
+  final user = FirebaseFirestore.instance.collection("user");
+  user.doc(userModel.userId).set({
+    "userId": userModel.userId,
+    "name": userModel.name,
+    "email": userModel.email,
+  });
 }
