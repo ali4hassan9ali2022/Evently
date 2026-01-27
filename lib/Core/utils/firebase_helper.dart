@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class FirebaseHelper {
@@ -37,5 +40,20 @@ abstract class FirebaseHelper {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  static deleteEvent({
+    required BuildContext context,
+    required EventModel eventModel,
+  }) async {
+    try {
+      CollectionReference collectionReference = FirebaseFirestore.instance
+          .collection("events");
+      collectionReference.doc(eventModel.id).delete();
+      CustomToastWidget.showSuccessToast("Event deleted successfully");
+      GoRouter.of(context).pop();
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+    }
   }
 }
