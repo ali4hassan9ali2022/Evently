@@ -260,8 +260,8 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                   SizedBox(height: size.height * 0.03),
                   CustomButton(
-                    onTap: () {
-                      FirebaseHelper.signInWithGoogle();
+                    onTap: () async {
+                      await FirebaseHelper.signInWithGoogle();
                     },
                     color: AppColor.white,
                     width: double.infinity,

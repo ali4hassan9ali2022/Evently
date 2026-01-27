@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
@@ -20,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var selectedCategory = AppHelper.allCategories[0];
   List<EventModel> filteredEvents = [];
+  List<EventModel> events = [];
   @override
   void initState() {
     super.initState();
@@ -88,34 +91,60 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             SizedBox(height: size.height * 0.03),
-            CategoriesTabBar(
-              category: AppHelper.allCategories,
-              onChanged: (value) {
-                selectedCategory = value;
-                if (selectedCategory != AppHelper.all) {
-                  filteredEvents = FirebaseHelper.events.where((element) {
-                    return element.categoryModel.name == selectedCategory.name;
-                  }).toList();
-                } else {
-                  filteredEvents = FirebaseHelper.events;
+            StreamBuilder(
+              stream: FirebaseHelper.getEvents(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
                 }
-                setState(() {});
+                if (snapshot.hasData) {
+                  events = snapshot.data!;
+                  // filterEvents();
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        CategoriesTabBar(
+                          category: AppHelper.allCategories,
+                          onChanged: (value) {
+                            selectedCategory = value;
+                            filterEvents();
+                            setState(() {});
+                          },
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        Expanded(
+                          child: EventlyListView(
+                            evvent: filteredEvents,
+                            itemCount: filteredEvents.length,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
               },
             ),
-            SizedBox(height: size.height * 0.03),
-            Expanded(child: EventlyListView(
-              evvent: filteredEvents,
-              itemCount: filteredEvents.length,
-            )),
           ],
         ),
       ),
     );
   }
 
+  void filterEvents() {
+    if (selectedCategory != AppHelper.all) {
+      filteredEvents = events.where((event) {
+        return event.categoryModel.name == selectedCategory.name;
+      }).toList();
+      log(filteredEvents.length.toString());
+    } else {
+      filteredEvents = events;
+    }
+  }
+
   Future<void> loadEvents() async {
-    await FirebaseHelper.getEvents();
-    filteredEvents = FirebaseHelper.events;
+    FirebaseHelper.getEvents();
+    filteredEvents = events;
     setState(() {});
   }
 }

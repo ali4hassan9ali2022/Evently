@@ -7,6 +7,7 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/firebase_helper.dart';
 import 'package:evently/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -198,6 +199,9 @@ class _LogInViewState extends State<LogInView> {
                   ),
                   SizedBox(height: size.height * 0.03),
                   CustomButton(
+                    onTap: () async {
+                      await FirebaseHelper.signInWithGoogle();
+                    },
                     color: AppColor.white,
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
