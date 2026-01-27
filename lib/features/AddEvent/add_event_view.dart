@@ -203,10 +203,10 @@ class _AddEventViewState extends State<AddEventView> {
       );
 
       docu.set(eventModel.toJson());
-      GoRouter.of(context).pop();
       CustomToastWidget.showSuccessToast("Event added successfully");
       isLoading = false;
       setState(() {});
+      GoRouter.of(context).pop();
     } catch (e) {
       CustomToastWidget.showErrorToast(e.toString());
     } finally {

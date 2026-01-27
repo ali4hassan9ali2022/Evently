@@ -3,7 +3,6 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
-import 'package:evently/features/Home/Widgets/evently_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -40,10 +39,10 @@ class FavoriteView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: size.height * 0.02), //! 16
-                EventlyListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                ),
+                // EventlyListView(
+                //   physics: NeverScrollableScrollPhysics(),
+                //   shrinkWrap: true,
+                // ),
               ],
             ),
           ),

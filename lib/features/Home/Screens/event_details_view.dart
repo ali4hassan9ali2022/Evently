@@ -7,6 +7,7 @@ import 'package:evently/Models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class EventDetailsView extends StatelessWidget {
   const EventDetailsView({super.key, required this.eventModel});
@@ -14,6 +15,7 @@ class EventDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var time = DateFormat('h:mm a').format(eventModel.dateTime);
     log(eventModel.title);
     return Scaffold(
       backgroundColor: AppColor.offWhite,
@@ -44,7 +46,9 @@ class EventDetailsView extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          GoRouter.of(context).push(AppRouter.editEvent);
+                          GoRouter.of(
+                            context,
+                          ).push(AppRouter.editEvent, extra: eventModel);
                         },
                         child: SvgPicture.asset(AppAssets.imageEdit),
                       ),
@@ -95,7 +99,7 @@ class EventDetailsView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "12:12 PM",
+                          time,
                           textAlign: TextAlign.start,
                           style: AppStyles.textStyleMedium16(
                             color: AppColor.grey2,

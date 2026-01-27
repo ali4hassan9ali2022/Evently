@@ -51,9 +51,15 @@ abstract final class AppRouter {
           return EventDetailsView(eventModel: eventModel);
         },
       ),
-       GoRoute(
+      GoRoute(
         path: editEvent,
-        builder: (context, state) => EditEventView(),
+        builder: (context, state) {
+          final eventModel = state.extra as EventModel?;
+          if (eventModel == null) {
+            return const Scaffold(body: Center(child: Text('No Event Data')));
+          }
+          return EditEventView(eventModel: eventModel);
+        },
       ),
     ],
   );

@@ -1,7 +1,6 @@
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
-import 'package:evently/Core/utils/firebase_helper.dart';
 import 'package:evently/features/Home/Widgets/bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,11 +15,6 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int currentIndex = 0;
   @override
-  void initState() {
-    super.initState();
-    loadEvents();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +39,5 @@ class _MainViewState extends State<MainView> {
       shape: CircleBorder(),
       child: Icon(Icons.add, color: AppColor.white),
     );
-  }
-
-  Future<void> loadEvents() async {
-    await FirebaseHelper.getEvents();
-    setState(() {});
   }
 }
