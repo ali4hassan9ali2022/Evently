@@ -6,9 +6,21 @@ import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/features/OnBoarding/Widgets/chanage_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OnBoardingView extends StatelessWidget {
+class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
+
+  @override
+  State<OnBoardingView> createState() => _OnBoardingViewState();
+}
+
+class _OnBoardingViewState extends State<OnBoardingView> {
+  bool isDark = false;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +39,27 @@ class OnBoardingView extends StatelessWidget {
               SizedBox(height: 24),
               Text(
                 "Personalize Your Experience",
-                style: AppStyles.textStyleSemiBold20(),
+                style: AppStyles.textStyleSemiBold20(color: AppColor.black),
               ),
               SizedBox(height: 8),
               Text(
                 "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
-                style: AppStyles.textStyleRegular16(),
+                style: AppStyles.textStyleRegular16(color: AppColor.grey),
               ),
               SizedBox(height: 18.5),
-              ChangeWidget(
+              ChangeLanguageWidget(
                 title: "Language",
                 subtitleOne: Text(
                   "English",
-                  style: AppStyles.textStyleSemiBold14().copyWith(
-                    color: AppColor.white,
-                  ),
+                  style: AppStyles.textStyleSemiBold14(color: AppColor.white),
                 ),
                 subtitleTwo: Text(
                   "Arabic",
-                  style: AppStyles.textStyleSemiBold14(),
+                  style: AppStyles.textStyleSemiBold14(color: AppColor.blue),
                 ),
               ),
               SizedBox(height: 16),
-              ChangeWidget(
+              ChangeThemeWidget(
                 title: "Theme",
                 subtitleOne: Icon(Icons.dark_mode, color: AppColor.white),
                 subtitleTwo: Icon(
@@ -71,7 +81,7 @@ class OnBoardingView extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Let’s start",
-                    style: AppStyles.textStyleMedium20(),
+                    style: AppStyles.textStyleMedium20(color: AppColor.white),
                   ),
                 ),
               ),
@@ -80,5 +90,23 @@ class OnBoardingView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? savedTheme = prefs.getBool("isDark");
+    if (savedTheme != null) {
+      setState(() {
+        isDark = savedTheme;
+      });
+    }
+  }
+
+  saveTheme(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isDark", value);
+    setState(() {
+      isDark = value;
+    });
   }
 }

@@ -27,6 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController emailAddress = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -45,7 +46,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text(
                   "Create your account",
                   textAlign: TextAlign.start,
-                  style: AppStyles.textStyleSemiBold24(),
+                  style: AppStyles.textStyleSemiBold24(color: AppColor.blue),
                 ),
                 SizedBox(height: size.height * 0.03),
                 CustomTextFormField(
@@ -171,7 +172,7 @@ class _RegisterViewState extends State<RegisterView> {
                   child: Center(
                     child: Text(
                       "Sign up",
-                      style: AppStyles.textStyleMedium20(),
+                      style: AppStyles.textStyleMedium20(color: AppColor.white),
                     ),
                   ),
                 ),
@@ -181,26 +182,35 @@ class _RegisterViewState extends State<RegisterView> {
                   children: [
                     Text(
                       "Don’t have an account ? ",
-                      style: AppStyles.textStyleRegular14(),
+                      style: AppStyles.textStyleRegular14(color: AppColor.grey),
                     ),
                     GestureDetector(
                       onTap: () {
                         GoRouter.of(context).pop();
                       },
-                      child: Text(
-                        "Signup",
-                        style: AppStyles.textStyleSemiBold14().copyWith(
-                          color: AppColor.blue,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
+                      child: isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: const CircularProgressIndicator(
+                                color: AppColor.white,
+                              ),
+                            )
+                          : Text(
+                              "Signup",
+                              style: AppStyles.textStyleSemiBold14().copyWith(
+                                color: AppColor.blue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColor.blue,
+                              ),
+                            ),
                     ),
                   ],
                 ),
                 SizedBox(height: size.height * 0.04),
                 Text(
                   "Or",
-                  style: AppStyles.textStyleMedium16(),
+                  style: AppStyles.textStyleMedium16(color: AppColor.blue),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: size.height * 0.03),
@@ -216,7 +226,9 @@ class _RegisterViewState extends State<RegisterView> {
                       SizedBox(width: 16),
                       Text(
                         "Sign up with Google",
-                        style: AppStyles.textStyleMedium18(),
+                        style: AppStyles.textStyleMedium18(
+                          color: AppColor.blue,
+                        ),
                       ),
                     ],
                   ),
@@ -231,6 +243,8 @@ class _RegisterViewState extends State<RegisterView> {
 
   cretateAccount() async {
     try {
+      isLoading = true;
+      setState(() {});
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: emailAddress.text,
@@ -258,15 +272,15 @@ class _RegisterViewState extends State<RegisterView> {
       }
     } catch (e) {
       CustomToastWidget.showErrorToast(e.toString());
+    } finally {
+      isLoading = false;
+      setState(() {});
     }
   }
 }
 
 addUser({required UserModel userModel}) async {
   final user = FirebaseFirestore.instance.collection("user");
-  user.doc(userModel.userId).set({
-    "userId": userModel.userId,
-    "name": userModel.name,
-    "email": userModel.email,
-  });
+
+  user.doc(userModel.userId).set(userModel.toJson());
 }

@@ -64,12 +64,7 @@ class EventlyWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Icon(
-                        evvent.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: AppColor.blue,
-                      ),
+                      Icon(Icons.favorite_border, color: AppColor.blue),
                     ],
                   ),
                 ),

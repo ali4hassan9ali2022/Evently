@@ -18,9 +18,7 @@ class ForgetPasswordView extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: size.height * 0.023),
-              AppBarWidget(
-                title: "Forget Password",
-              ),
+              AppBarWidget(title: "Forget Password"),
               SizedBox(height: size.height * 0.08),
               Image.asset(AppAssets.imagesForgetPassword, fit: BoxFit.fill),
               SizedBox(height: size.height * 0.05),
@@ -37,7 +35,7 @@ class ForgetPasswordView extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Reset password",
-                    style: AppStyles.textStyleMedium20(),
+                    style: AppStyles.textStyleMedium20(color: AppColor.white),
                   ),
                 ),
               ),
@@ -48,4 +46,3 @@ class ForgetPasswordView extends StatelessWidget {
     );
   }
 }
-

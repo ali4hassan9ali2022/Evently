@@ -1,71 +1,42 @@
-import 'package:evently/Core/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppStyles {
   //! Regular => 400
   static TextStyle textStyleRegular14({Color? color}) {
-    return TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: color ?? AppColor.black,
-    );
+    return TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: color);
   }
-  static TextStyle textStyleRegular16() {
-    return TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: AppColor.black,
-    );
+
+  static TextStyle textStyleRegular16({Color? color}) {
+    return TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: color);
   }
+
   //! Medium => 500
-  static TextStyle textStyleMedium14() {
-    return TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      color: AppColor.black,
-    );
+  static TextStyle textStyleMedium14({Color? color}) {
+    return TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: color);
   }
+
   static TextStyle textStyleMedium16({Color? color}) {
-    return TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
-      color: color ?? AppColor.blue,
-    );
+    return TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: color);
   }
+
   static TextStyle textStyleMedium18({Color? color}) {
-    return TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.w500,
-      color: color ?? AppColor.blue,
-    );
+    return TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: color);
   }
-  static TextStyle textStyleMedium20() {
-    return TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w500,
-      color: AppColor.white,
-    );
+
+  static TextStyle textStyleMedium20({Color? color}) {
+    return TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: color);
   }
+
   //! SemiBold => 600
-  static TextStyle textStyleSemiBold14() {
-    return TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: AppColor.blue,
-    );
+  static TextStyle textStyleSemiBold14({Color? color}) {
+    return TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: color);
   }
+
   static TextStyle textStyleSemiBold20({Color? color}) {
-    return TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-      color: color ?? AppColor.grey,
-    );
+    return TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color);
   }
-  static TextStyle textStyleSemiBold24() {
-    return TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-      color: AppColor.blue,
-    );
+
+  static TextStyle textStyleSemiBold24({Color? color}) {
+    return TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: color);
   }
 }

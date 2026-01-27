@@ -7,7 +7,6 @@ import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/on_boarding_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingWidget extends StatelessWidget {
   const OnBoardingWidget({
@@ -21,7 +20,7 @@ class OnBoardingWidget extends StatelessWidget {
   final int currentIndex;
   @override
   Widget build(BuildContext context) {
-    // var size = MediaQuery.of(context).size;
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
@@ -46,30 +45,27 @@ class OnBoardingWidget extends StatelessWidget {
                 onTap: () {
                   GoRouter.of(context).pushReplacement(AppRouter.logIn);
                 },
-                child: Text("Skip", style: AppStyles.textStyleSemiBold14()),
+                child: Text(
+                  "Skip",
+                  style: AppStyles.textStyleSemiBold14(color: AppColor.blue),
+                ),
               ),
             ],
           ),
           SizedBox(height: 24),
           Image.asset(item.image, fit: BoxFit.fill),
           SizedBox(height: 8),
-          Align(
-            alignment: Alignment.center,
-            child: SmoothPageIndicator(
-              controller: pageController,
-              count: AppHelper.onBoardingList.length,
-              effect: ExpandingDotsEffect(
-                dotHeight: 7,
-                dotWidth: 9,
-                dotColor: AppColor.grey2,
-                activeDotColor: AppColor.blue,
-              ),
-            ),
-          ),
+
           SizedBox(height: 16),
-          Text(item.title, style: AppStyles.textStyleSemiBold20()),
+          Text(
+            item.title,
+            style: AppStyles.textStyleSemiBold20(color: AppColor.black),
+          ),
           SizedBox(height: 8),
-          Text(item.subTitle, style: AppStyles.textStyleRegular16()),
+          Text(
+            item.subTitle,
+            style: AppStyles.textStyleRegular16(color: AppColor.grey),
+          ),
           Expanded(child: SizedBox()),
           CustomButton(
             onTap: () {
@@ -88,8 +84,14 @@ class OnBoardingWidget extends StatelessWidget {
             color: AppColor.blue,
             child: Center(
               child: currentIndex == AppHelper.onBoardingList.length - 1
-                  ? Text("Get Started", style: AppStyles.textStyleMedium20())
-                  : Text("Next", style: AppStyles.textStyleMedium20()),
+                  ? Text(
+                      "Get Started",
+                      style: AppStyles.textStyleMedium20(color: AppColor.white),
+                    )
+                  : Text(
+                      "Next",
+                      style: AppStyles.textStyleMedium20(color: AppColor.white),
+                    ),
             ),
           ),
         ],

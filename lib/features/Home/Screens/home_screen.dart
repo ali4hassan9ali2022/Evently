@@ -17,7 +17,6 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(color: AppColor.offWhite),
         child: Column(
           children: [
             SizedBox(height: size.height * 0.03), //! 24
