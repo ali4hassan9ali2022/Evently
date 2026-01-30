@@ -210,6 +210,7 @@ class _EditEventViewState extends State<EditEventView> {
       });
       CustomToastWidget.showSuccessToast("Event updated successfully");
       GoRouter.of(context).pop();
+      GoRouter.of(context).pop();
     } catch (e) {
       CustomToastWidget.showErrorToast(e.toString());
     }

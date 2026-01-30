@@ -62,9 +62,31 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       SizedBox(width: 8),
                       InkWell(
                         onTap: () {
-                          FirebaseHelper.deleteEvent(
+                          showDialog(
                             context: context,
-                            eventModel: widget.eventModel,
+                            builder: (context) => AlertDialog(
+                              title: Text("Delete"),
+                              content: Text(
+                                "Are you sure you want to delete this event?",
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    FirebaseHelper.deleteEvent(
+                                      context: context,
+                                      eventModel: widget.eventModel,
+                                    );
+                                  },
+                                  child: Text("Logout"),
+                                ),
+                              ],
+                            ),
                           );
                         },
                         child: SvgPicture.asset(AppAssets.imageDelete),

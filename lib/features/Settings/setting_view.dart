@@ -3,11 +3,12 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
-import 'package:evently/Models/user_model.dart';
+import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -20,6 +21,7 @@ class _SettingViewState extends State<SettingView> {
   bool value = false;
   @override
   Widget build(BuildContext context) {
+    var logInProvider = Provider.of<LogInProvider>(context);
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
@@ -39,13 +41,13 @@ class _SettingViewState extends State<SettingView> {
             ),
             SizedBox(height: size.height * 0.02), //! 16
             Text(
-              UserModel.currentUser!.name,
+              logInProvider.userModel!.name,
               textAlign: TextAlign.center,
               style: AppStyles.textStyleSemiBold20(color: AppColor.black),
             ),
             SizedBox(height: 4),
             Text(
-              UserModel.currentUser!.email,
+              logInProvider.userModel!.email,
               textAlign: TextAlign.center,
               style: AppStyles.textStyleRegular14(color: AppColor.grey),
             ),

@@ -1,33 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/Widgets/custom_text_form_field.dart';
-import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Core/utils/firebase_helper.dart';
-import 'package:evently/Models/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class LogInView extends StatefulWidget {
+class LogInView extends StatelessWidget {
   const LogInView({super.key});
 
   @override
-  State<LogInView> createState() => _LogInViewState();
-}
-
-class _LogInViewState extends State<LogInView> {
-  TextEditingController emailAddress = TextEditingController();
-  TextEditingController password = TextEditingController();
-  GlobalKey<FormState> fromKey = GlobalKey();
-  bool isLoading = false;
-  @override
   Widget build(BuildContext context) {
+    var logInProvider = Provider.of<LogInProvider>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColor.offWhite,
@@ -36,7 +26,7 @@ class _LogInViewState extends State<LogInView> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SingleChildScrollView(
             child: Form(
-              key: fromKey,
+              key: logInProvider.fromKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -50,7 +40,7 @@ class _LogInViewState extends State<LogInView> {
                   ),
                   SizedBox(height: size.height * 0.03),
                   CustomTextFormField(
-                    controller: emailAddress,
+                    controller: logInProvider.emailAddress,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       var rgx = RegExp(
@@ -95,7 +85,7 @@ class _LogInViewState extends State<LogInView> {
                       }
                       return null;
                     },
-                    controller: password,
+                    controller: logInProvider.password,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: "Enter your password",
                     hintStyle: AppStyles.textStyleRegular14(
@@ -141,9 +131,9 @@ class _LogInViewState extends State<LogInView> {
                   SizedBox(height: size.height * 0.06),
                   CustomButton(
                     onTap: () async {
-                      if (fromKey.currentState!.validate()) {
-                        fromKey.currentState!.save();
-                        logIn();
+                      if (logInProvider.fromKey.currentState!.validate()) {
+                        logInProvider.fromKey.currentState!.save();
+                        logInProvider.logIn(context: context);
                       }
                     },
                     width: double.infinity,
@@ -151,7 +141,7 @@ class _LogInViewState extends State<LogInView> {
                     height: 48,
                     color: AppColor.blue,
                     child: Center(
-                      child: isLoading
+                      child: logInProvider.isLoading
                           ? SizedBox(
                               height: 20,
                               width: 20,
@@ -227,35 +217,5 @@ class _LogInViewState extends State<LogInView> {
         ),
       ),
     );
-  }
-
-  logIn() async {
-    try {
-      isLoading = true;
-      setState(() {});
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailAddress.text.trim(),
-        password: password.text.trim(),
-      );
-      UserModel.currentUser = await getUser(userId: credential.user!.uid);
-      if (!mounted) return;
-      GoRouter.of(context).pushReplacement(AppRouter.mainView);
-      CustomToastWidget.showSuccessToast("Login successfully");
-    } on FirebaseAuthException catch (e) {
-      CustomToastWidget.showErrorToast(e.message ?? "Auth error");
-    } catch (e) {
-      CustomToastWidget.showErrorToast(e.toString());
-    } finally {
-      isLoading = false;
-      setState(() {});
-    }
-  }
-
-  Future<UserModel> getUser({required String userId}) async {
-    var user = FirebaseFirestore.instance.collection('user');
-    DocumentSnapshot snapshot = await user.doc(userId).get();
-    Map<String, dynamic> json = snapshot.data() as Map<String, dynamic>;
-    UserModel userModel = UserModel.fromJson(json);
-    return userModel;
   }
 }

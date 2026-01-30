@@ -5,12 +5,14 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Core/utils/firebase_helper.dart';
+import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/event_model.dart';
-import 'package:evently/Models/user_model.dart';
+import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:evently/features/Home/Widgets/evently_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,18 +22,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var selectedCategory = AppHelper.allCategories[0];
+  CategoryModel selectedCategory = AppHelper.all;
   List<EventModel> filteredEvents = [];
-  List<EventModel> events = [];
-  @override
-  void initState() {
-    super.initState();
-    loadEvents();
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var logInProvider = Provider.of<LogInProvider>(context);
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -50,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      UserModel.currentUser!.name,
+                      logInProvider.userModel?.name ?? "Guest",
                       textAlign: TextAlign.left,
                       style: AppStyles.textStyleMedium20().copyWith(
                         color: AppColor.black,
@@ -91,15 +87,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             SizedBox(height: size.height * 0.03),
-            StreamBuilder(
+            StreamBuilder<List<EventModel>>(
               stream: FirebaseHelper.getEvents(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 }
                 if (snapshot.hasData) {
-                  events = snapshot.data!;
-                  // filterEvents();
+                  FirebaseHelper.events = snapshot.data!;
+                  filterEvents();
                   return Expanded(
                     child: Column(
                       children: [
@@ -133,18 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void filterEvents() {
     if (selectedCategory != AppHelper.all) {
-      filteredEvents = events.where((event) {
+      filteredEvents = FirebaseHelper.events.where((event) {
         return event.categoryModel.name == selectedCategory.name;
       }).toList();
       log(filteredEvents.length.toString());
     } else {
-      filteredEvents = events;
+      filteredEvents = FirebaseHelper.events;
     }
-  }
-
-  Future<void> loadEvents() async {
-    FirebaseHelper.getEvents();
-    filteredEvents = events;
-    setState(() {});
   }
 }
