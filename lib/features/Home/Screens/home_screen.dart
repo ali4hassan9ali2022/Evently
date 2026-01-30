@@ -1,33 +1,23 @@
-import 'dart:developer';
-
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
-import 'package:evently/Core/utils/firebase_helper.dart';
-import 'package:evently/Models/category_model.dart';
-import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
+import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:evently/features/Home/Widgets/evently_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  CategoryModel selectedCategory = AppHelper.all;
-  List<EventModel> filteredEvents = [];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var logInProvider = Provider.of<LogInProvider>(context);
+    var fetchProvider = Provider.of<FetchEventProvider>(context);
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -87,54 +77,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             SizedBox(height: size.height * 0.03),
-            StreamBuilder<List<EventModel>>(
-              stream: FirebaseHelper.getEvents(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                }
-                if (snapshot.hasData) {
-                  FirebaseHelper.events = snapshot.data!;
-                  filterEvents();
-                  return Expanded(
-                    child: Column(
-                      children: [
-                        CategoriesTabBar(
-                          category: AppHelper.allCategories,
-                          onChanged: (value) {
-                            selectedCategory = value;
-                            filterEvents();
-                            setState(() {});
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.03),
-                        Expanded(
-                          child: EventlyListView(
-                            evvent: filteredEvents,
-                            itemCount: filteredEvents.length,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return Center(child: CircularProgressIndicator());
+
+            CategoriesTabBar(
+              category: AppHelper.allCategories,
+              onChanged: (value) {
+                fetchProvider.setSelectedCategory(value);
               },
+            ),
+            SizedBox(height: size.height * 0.03),
+            Expanded(
+              child: Consumer<FetchEventProvider>(
+                builder: (context, value, _) {
+                  if (value.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (value.filteredEvents.isEmpty) {
+                    return const Center(child: Text("No events found"));
+                  } else {
+                    return EventlyListView(
+                      evvent: value.filteredEvents,
+                      itemCount: value.filteredEvents.length,
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  void filterEvents() {
-    if (selectedCategory != AppHelper.all) {
-      filteredEvents = FirebaseHelper.events.where((event) {
-        return event.categoryModel.name == selectedCategory.name;
-      }).toList();
-      log(filteredEvents.length.toString());
-    } else {
-      filteredEvents = FirebaseHelper.events;
-    }
   }
 }

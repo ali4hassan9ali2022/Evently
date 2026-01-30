@@ -41,7 +41,13 @@ class LogInProvider extends ChangeNotifier {
   Future<UserModel> getUser({required String userId}) async {
     var user = FirebaseFirestore.instance.collection('user');
     DocumentSnapshot snapshot = await user.doc(userId).get();
+
+    if (!snapshot.exists || snapshot.data() == null) {
+      throw Exception("User data not found in Firestore");
+    }
+
     Map<String, dynamic> json = snapshot.data() as Map<String, dynamic>;
+
     userModel = UserModel.fromJson(json);
     return userModel!;
   }
