@@ -2,7 +2,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
-import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
+import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:evently/features/Home/Widgets/evently_list_view.dart';
@@ -16,8 +16,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var logInProvider = Provider.of<LogInProvider>(context);
     var fetchProvider = Provider.of<FetchEventProvider>(context);
+
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      logInProvider.userModel?.name ?? "Guest",
+                      Provider.of<UserProvider>(context).userModel!.name,
                       textAlign: TextAlign.left,
                       style: AppStyles.textStyleMedium20().copyWith(
                         color: AppColor.black,

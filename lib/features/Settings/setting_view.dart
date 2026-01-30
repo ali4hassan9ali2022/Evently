@@ -3,7 +3,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
-import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
+import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,7 +21,7 @@ class _SettingViewState extends State<SettingView> {
   bool value = false;
   @override
   Widget build(BuildContext context) {
-    var logInProvider = Provider.of<LogInProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
@@ -41,13 +41,13 @@ class _SettingViewState extends State<SettingView> {
             ),
             SizedBox(height: size.height * 0.02), //! 16
             Text(
-              logInProvider.userModel!.name,
+              userProvider.userModel!.name,
               textAlign: TextAlign.center,
               style: AppStyles.textStyleSemiBold20(color: AppColor.black),
             ),
             SizedBox(height: 4),
             Text(
-              logInProvider.userModel!.email,
+              userProvider.userModel!.email,
               textAlign: TextAlign.center,
               style: AppStyles.textStyleRegular14(color: AppColor.grey),
             ),

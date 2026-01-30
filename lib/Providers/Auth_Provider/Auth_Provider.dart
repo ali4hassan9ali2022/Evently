@@ -1,0 +1,111 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/Core/Widgets/toast_widget.dart';
+import 'package:evently/Core/utils/app_router.dart';
+import 'package:evently/Models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class UserProvider extends ChangeNotifier {
+  //! Register
+  TextEditingController name = TextEditingController();
+  TextEditingController emailAddressRegister = TextEditingController();
+  TextEditingController passwordRegister = TextEditingController();
+  GlobalKey<FormState> formKeyRegister = GlobalKey<FormState>();
+  TextEditingController passwordConfirm = TextEditingController();
+  //! Login
+  TextEditingController emailAddressLogin = TextEditingController();
+  TextEditingController passwordLogin = TextEditingController();
+  GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
+  bool isLoading = false;
+  UserModel? userModel;
+  //! Create Account in Firebase Auth
+  cretateAccount({required BuildContext context}) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailAddressRegister.text,
+            password: passwordRegister.text,
+          );
+      log(credential.user!.uid);
+      userModel = UserModel(
+        userId: credential.user!.uid,
+        name: name.text,
+        email: emailAddressRegister.text,
+      );
+      await addUser(userModel: userModel!);
+      log(UserModel.currentUser.toString());
+      await GoRouter.of(context).pushReplacement(AppRouter.mainView);
+      log("Register successfully");
+      CustomToastWidget.showSuccessToast("Register successfully");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        CustomToastWidget.showErrorToast("The password provided is too weak.");
+      } else if (e.code == 'email-already-in-use') {
+        CustomToastWidget.showErrorToast(
+          "The account already exists for that email.",
+        );
+      } else {
+        CustomToastWidget.showErrorToast("Something went wrong.");
+      }
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+      log("Error $e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  //! Create User in Firebase Store
+  addUser({required UserModel userModel}) async {
+    final user = FirebaseFirestore.instance.collection("user");
+
+    user.doc(userModel.userId).set(userModel.toJson());
+    notifyListeners();
+  }
+
+  //! Log In
+  logIn({required BuildContext context}) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddressLogin.text.trim(),
+        password: passwordLogin.text.trim(),
+      );
+      userModel = await getUser(userId: credential.user!.uid);
+      GoRouter.of(context).pushReplacement(AppRouter.mainView);
+      log("Login successfully");
+      CustomToastWidget.showSuccessToast("Login successfully");
+    } on FirebaseAuthException catch (e) {
+      CustomToastWidget.showErrorToast(e.message ?? "Auth error");
+      log("Login failed by FirebaseAuthException");
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+      log("Login failed by catch");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  //! Get User From Firebase Store
+  Future<UserModel> getUser({required String userId}) async {
+    var user = FirebaseFirestore.instance.collection('user');
+    DocumentSnapshot snapshot = await user.doc(userId).get();
+
+    if (!snapshot.exists || snapshot.data() == null) {
+      throw Exception("User data not found in Firestore");
+    }
+
+    Map<String, dynamic> json = snapshot.data() as Map<String, dynamic>;
+
+    UserModel userModel = UserModel.fromJson(json);
+    return userModel;
+  }
+}

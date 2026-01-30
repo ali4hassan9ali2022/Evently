@@ -8,16 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class FirebaseHelper {
   static List<EventModel> events = [];
-  static Stream<List<EventModel>> getEvents() {
-    CollectionReference event = FirebaseFirestore.instance.collection("events");
-
-    return event.snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) => EventModel.fromJson(doc.data()))
-          .toList();
-    });
-  }
-
   static Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await GoogleSignIn.instance
         .authenticate();

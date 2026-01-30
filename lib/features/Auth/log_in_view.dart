@@ -6,7 +6,7 @@ import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Core/utils/firebase_helper.dart';
-import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
+import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +17,7 @@ class LogInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var logInProvider = Provider.of<LogInProvider>(context);
+    var userPrvider = Provider.of<UserProvider>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColor.offWhite,
@@ -26,7 +26,7 @@ class LogInView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SingleChildScrollView(
             child: Form(
-              key: logInProvider.fromKey,
+              key: userPrvider.formKeyLogin,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -40,7 +40,7 @@ class LogInView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.03),
                   CustomTextFormField(
-                    controller: logInProvider.emailAddress,
+                    controller: userPrvider.emailAddressLogin,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       var rgx = RegExp(
@@ -85,7 +85,7 @@ class LogInView extends StatelessWidget {
                       }
                       return null;
                     },
-                    controller: logInProvider.password,
+                    controller: userPrvider.passwordLogin,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: "Enter your password",
                     hintStyle: AppStyles.textStyleRegular14(
@@ -131,9 +131,9 @@ class LogInView extends StatelessWidget {
                   SizedBox(height: size.height * 0.06),
                   CustomButton(
                     onTap: () async {
-                      if (logInProvider.fromKey.currentState!.validate()) {
-                        logInProvider.fromKey.currentState!.save();
-                        logInProvider.logIn(context: context);
+                      if (userPrvider.formKeyLogin.currentState!.validate()) {
+                        userPrvider.formKeyLogin.currentState!.save();
+                        userPrvider.logIn(context: context);
                       }
                     },
                     width: double.infinity,
@@ -141,7 +141,7 @@ class LogInView extends StatelessWidget {
                     height: 48,
                     color: AppColor.blue,
                     child: Center(
-                      child: logInProvider.isLoading
+                      child: userPrvider.isLoading
                           ? SizedBox(
                               height: 20,
                               width: 20,

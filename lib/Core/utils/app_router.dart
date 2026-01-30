@@ -1,6 +1,4 @@
 import 'package:evently/Models/event_model.dart';
-import 'package:evently/Providers/Auth_Provider/log_in_provider.dart';
-import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:evently/features/AddEvent/add_event_view.dart';
 import 'package:evently/features/Auth/forget_password_view.dart';
 import 'package:evently/features/Auth/log_in_view.dart';
@@ -13,7 +11,6 @@ import 'package:evently/features/OnBoarding/on_boarding_view.dart';
 import 'package:evently/features/Splash/splah_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 abstract final class AppRouter {
   static const String onBoarding = "/OnBoardingView";
@@ -33,13 +30,7 @@ abstract final class AppRouter {
         path: mainOnBoarding,
         builder: (context, state) => MainOnBoarding(),
       ),
-      GoRoute(
-        path: logIn,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => LogInProvider(),
-          child: LogInView(),
-        ),
-      ),
+      GoRoute(path: logIn, builder: (context, state) => LogInView()),
       GoRoute(path: register, builder: (context, state) => RegisterView()),
       GoRoute(
         path: forgetPassword,
@@ -47,13 +38,7 @@ abstract final class AppRouter {
       ),
       GoRoute(
         path: mainView,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => LogInProvider(),
-          child: ChangeNotifierProvider(
-            create: (context) => FetchEventProvider()..getEvents(),
-            child: MainView(),
-          ),
-        ),
+        builder: (context, state) => MainView(),
       ),
       GoRoute(
         path: addEventlyView,

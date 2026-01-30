@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Models/category_model.dart';
 
 class EventModel {
-  final String id;
+  String id;
   final String ownerId;
   final CategoryModel categoryModel;
   final String title;

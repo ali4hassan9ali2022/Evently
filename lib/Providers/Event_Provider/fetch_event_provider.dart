@@ -11,7 +11,9 @@ class FetchEventProvider extends ChangeNotifier {
   List<EventModel> filteredEvents = [];
   List<EventModel> events = [];
   bool isLoading = false;
+  //! Get Events
   Future<List<EventModel>> getEvents() async {
+    events.clear();
     isLoading = true;
     notifyListeners();
     CollectionReference eventCollection = FirebaseFirestore.instance.collection(
@@ -28,6 +30,7 @@ class FetchEventProvider extends ChangeNotifier {
     return events;
   }
 
+  //! Filter Events
   void filterEvents() {
     if (selectedCategory != AppHelper.all) {
       filteredEvents = events.where((event) {
@@ -41,6 +44,8 @@ class FetchEventProvider extends ChangeNotifier {
     }
   }
 
+  //! Update Event
+  //! Select Category
   void setSelectedCategory(CategoryModel category) {
     selectedCategory = category;
     filterEvents();

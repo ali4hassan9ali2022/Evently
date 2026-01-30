@@ -1,37 +1,23 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/Widgets/custom_text_form_field.dart';
-import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
-import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Core/utils/firebase_helper.dart';
-import 'package:evently/Models/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class RegisterView extends StatefulWidget {
+class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
-}
-
-class _RegisterViewState extends State<RegisterView> {
-  TextEditingController name = TextEditingController();
-  TextEditingController emailAddress = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController passwordConfirm = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isLoading = false;
-  @override
   Widget build(BuildContext context) {
+    var userPrvider = Provider.of<UserProvider>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColor.offWhite,
@@ -40,7 +26,7 @@ class _RegisterViewState extends State<RegisterView> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: userPrvider.formKeyRegister,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -60,7 +46,7 @@ class _RegisterViewState extends State<RegisterView> {
                       }
                       return null;
                     },
-                    controller: name,
+                    controller: userPrvider.name,
                     keyboardType: TextInputType.name,
                     hintText: "Enter your name",
                     hintStyle: AppStyles.textStyleRegular14().copyWith(
@@ -98,7 +84,7 @@ class _RegisterViewState extends State<RegisterView> {
                       }
                       return null;
                     },
-                    controller: emailAddress,
+                    controller: userPrvider.emailAddressRegister,
                     keyboardType: TextInputType.emailAddress,
                     hintText: "Enter your email",
                     hintStyle: AppStyles.textStyleRegular14().copyWith(
@@ -133,7 +119,7 @@ class _RegisterViewState extends State<RegisterView> {
                       }
                       return null;
                     },
-                    controller: password,
+                    controller: userPrvider.passwordRegister,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: "Enter your password",
                     hintStyle: AppStyles.textStyleRegular14().copyWith(
@@ -164,13 +150,13 @@ class _RegisterViewState extends State<RegisterView> {
                   SizedBox(height: size.height * 0.02),
                   CustomTextFormField(
                     validator: (value) {
-                      if (password.text.characters !=
-                          passwordConfirm.text.characters) {
+                      if (userPrvider.passwordRegister.text.characters !=
+                          userPrvider.passwordConfirm.text.characters) {
                         return "Password does not match";
                       }
                       return null;
                     },
-                    controller: passwordConfirm,
+                    controller: userPrvider.passwordConfirm,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: "Confirm your password",
                     hintStyle: AppStyles.textStyleRegular14().copyWith(
@@ -201,9 +187,10 @@ class _RegisterViewState extends State<RegisterView> {
                   SizedBox(height: size.height * 0.064),
                   CustomButton(
                     onTap: () async {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        await cretateAccount();
+                      if (userPrvider.formKeyRegister.currentState!
+                          .validate()) {
+                        userPrvider.formKeyRegister.currentState!.save();
+                        await userPrvider.cretateAccount(context: context);
                       }
                     },
                     width: double.infinity,
@@ -211,12 +198,20 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 48,
                     color: AppColor.blue,
                     child: Center(
-                      child: Text(
-                        "Sign up",
-                        style: AppStyles.textStyleMedium20(
-                          color: AppColor.white,
-                        ),
-                      ),
+                      child: userPrvider.isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: const CircularProgressIndicator(
+                                color: AppColor.white,
+                              ),
+                            )
+                          : Text(
+                              "Sign up",
+                              style: AppStyles.textStyleMedium20(
+                                color: AppColor.white,
+                              ),
+                            ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.024),
@@ -233,22 +228,14 @@ class _RegisterViewState extends State<RegisterView> {
                         onTap: () {
                           GoRouter.of(context).pop();
                         },
-                        child: isLoading
-                            ? SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: const CircularProgressIndicator(
-                                  color: AppColor.white,
-                                ),
-                              )
-                            : Text(
-                                "Signup",
-                                style: AppStyles.textStyleSemiBold14().copyWith(
-                                  color: AppColor.blue,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColor.blue,
-                                ),
-                              ),
+                        child: Text(
+                          "Signup",
+                          style: AppStyles.textStyleSemiBold14().copyWith(
+                            color: AppColor.blue,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColor.blue,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -289,47 +276,4 @@ class _RegisterViewState extends State<RegisterView> {
       ),
     );
   }
-
-  cretateAccount() async {
-    try {
-      isLoading = true;
-      setState(() {});
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: emailAddress.text,
-            password: password.text,
-          );
-      log(credential.user!.uid);
-      UserModel.currentUser = UserModel(
-        userId: credential.user!.uid,
-        name: name.text,
-        email: emailAddress.text,
-      );
-      await addUser(userModel: UserModel.currentUser!);
-      log(UserModel.currentUser.toString());
-      await GoRouter.of(context).pushReplacement(AppRouter.mainView);
-      CustomToastWidget.showSuccessToast("Register successfully");
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        CustomToastWidget.showErrorToast("The password provided is too weak.");
-      } else if (e.code == 'email-already-in-use') {
-        CustomToastWidget.showErrorToast(
-          "The account already exists for that email.",
-        );
-      } else {
-        CustomToastWidget.showErrorToast("Something went wrong.");
-      }
-    } catch (e) {
-      CustomToastWidget.showErrorToast(e.toString());
-    } finally {
-      isLoading = false;
-      setState(() {});
-    }
-  }
-}
-
-addUser({required UserModel userModel}) async {
-  final user = FirebaseFirestore.instance.collection("user");
-
-  user.doc(userModel.userId).set(userModel.toJson());
 }
