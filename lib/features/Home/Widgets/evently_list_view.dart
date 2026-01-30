@@ -1,5 +1,4 @@
 import 'package:evently/Core/utils/app_router.dart';
-import 'package:evently/Core/utils/firebase_helper.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/features/Home/Widgets/evently_widget.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class EventlyListView extends StatelessWidget {
           onTap: () {
             GoRouter.of(
               context,
-            ).push(AppRouter.eventDetails, extra: FirebaseHelper.events[index]);
+            ).push(AppRouter.eventDetails, extra: evvent[index]);
           },
           child: EventlyWidget(evvent: evvent[index]),
         );
