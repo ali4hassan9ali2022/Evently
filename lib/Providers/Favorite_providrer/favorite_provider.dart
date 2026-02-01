@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class FavoriteProvider extends ChangeNotifier {
   List<EventModel> favoriteEvents = [];
+  List<EventModel> allFavoriteEvents = [];
   bool isLoading = false;
   void addFavorite({
     required String eventId,
@@ -47,9 +48,15 @@ class FavoriteProvider extends ChangeNotifier {
     required BuildContext context,
   }) async {
     favoriteEvents.clear();
+    allFavoriteEvents.clear();
     isLoading = true;
+
     var user = Provider.of<UserProvider>(context, listen: false);
-    if (user.userModel!.favoriteEvents.isEmpty) return [];
+    if (user.userModel!.favoriteEvents.isEmpty) {
+      isLoading = false;
+      notifyListeners();
+      return [];
+    }
     CollectionReference eventsCollection = FirebaseFirestore.instance
         .collection("events");
     QuerySnapshot querySnapshot = await eventsCollection
@@ -57,11 +64,25 @@ class FavoriteProvider extends ChangeNotifier {
         .get();
 
     for (var event in querySnapshot.docs) {
-      favoriteEvents.add(EventModel.fromJson(event));
+      final eventModel = EventModel.fromJson(event);
+      allFavoriteEvents.add(eventModel);
     }
+    favoriteEvents = List.from(allFavoriteEvents);
     isLoading = false;
     notifyListeners();
     log("favorites = ${favoriteEvents.length}");
     return favoriteEvents;
+  }
+
+  void searchFavorite({required String query}) {
+    if (query.isEmpty) {
+      favoriteEvents = List.from(allFavoriteEvents);
+    } else {
+      favoriteEvents = allFavoriteEvents.where((event) {
+        return event.title.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    }
+
+    notifyListeners();
   }
 }
