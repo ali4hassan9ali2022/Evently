@@ -1,5 +1,6 @@
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Models/event_model.dart';
+import 'package:evently/Models/user_model.dart';
 import 'package:evently/features/Home/Widgets/evently_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,12 +11,13 @@ class EventlyListView extends StatelessWidget {
     this.physics,
     this.shrinkWrap,
     this.itemCount,
-    required this.evvent,
+    required this.evvent, required this.userModel,
   });
   final ScrollPhysics? physics;
   final bool? shrinkWrap;
   final int? itemCount;
   final List<EventModel> evvent;
+  final UserModel userModel;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -29,7 +31,9 @@ class EventlyListView extends StatelessWidget {
               context,
             ).push(AppRouter.eventDetails, extra: evvent[index]);
           },
-          child: EventlyWidget(evvent: evvent[index]),
+          child: EventlyWidget(evvent: evvent[index], 
+          userModel: userModel,
+          ),
         );
       },
     );

@@ -3,6 +3,7 @@ import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Event_Provider/add_event_providr.dart';
 import 'package:evently/Providers/Event_Provider/delete_event_provider.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
+import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
 import 'package:evently/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class EventlyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (context) => AddEventProvidr()),
         ChangeNotifierProvider(create: (context) => DeleteEventProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

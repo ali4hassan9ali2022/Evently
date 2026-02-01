@@ -20,7 +20,6 @@ class OnBoardingWidget extends StatelessWidget {
   final int currentIndex;
   @override
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
@@ -53,7 +52,12 @@ class OnBoardingWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 24),
-          Image.asset(item.image, fit: BoxFit.fill),
+          Image.asset(
+            item.image,
+            fit: BoxFit.fill,
+
+            height: MediaQuery.sizeOf(context).height * 0.4,
+          ),
           SizedBox(height: 8),
 
           SizedBox(height: 16),

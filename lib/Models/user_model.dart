@@ -21,6 +21,7 @@ class UserModel {
       userId: json['userId'],
       name: json['name'],
       email: json['email'],
+      favoriteEvents: List<String>.from(json['favorites']),
     );
   }
 }

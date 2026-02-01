@@ -35,7 +35,7 @@ class _MainOnBoardingState extends State<MainOnBoarding> {
               ),
             ),
             Positioned(
-              top: size.height * 0.539,
+              top: size.height * 0.49,
               left: size.width * 0.4,
               child: SmoothPageIndicator(
                 controller: pageController,

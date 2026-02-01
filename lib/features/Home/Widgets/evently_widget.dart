@@ -1,11 +1,20 @@
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/event_model.dart';
+import 'package:evently/Models/user_model.dart';
+import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
+import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EventlyWidget extends StatelessWidget {
-  const EventlyWidget({super.key, required this.evvent});
+  const EventlyWidget({
+    super.key,
+    required this.evvent,
+    required this.userModel,
+  });
   final EventModel evvent;
+  final UserModel userModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,7 +73,27 @@ class EventlyWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Icon(Icons.favorite_border, color: AppColor.blue),
+                      Consumer<FavoriteProvider>(
+                        builder: (context, value, child) {
+                          return InkWell(
+                            onTap: () {
+                              value.addFavorite(
+                                eventId: evvent.id,
+                                user: userModel,
+                              );
+                            },
+                            child: Icon(
+                              Provider.of<UserProvider>(context, listen: false)
+                                      .userModel!
+                                      .favoriteEvents
+                                      .contains(evvent.id)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: AppColor.blue,
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
