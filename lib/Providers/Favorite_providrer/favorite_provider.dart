@@ -16,4 +16,14 @@ class FavoriteProvider extends ChangeNotifier {
     log("add favorite success");
     notifyListeners();
   }
+
+  void deleteFavorite({required String eventId, required UserModel user}) {
+    CollectionReference collectionReference = FirebaseFirestore.instance
+        .collection("user");
+    DocumentReference documentReference = collectionReference.doc(user.userId);
+    user.favoriteEvents.remove(eventId);
+    documentReference.update({"favorites": user.favoriteEvents});
+    log("Delete favorite success");
+    notifyListeners();
+  }
 }

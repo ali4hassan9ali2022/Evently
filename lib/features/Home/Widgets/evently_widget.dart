@@ -77,10 +77,20 @@ class EventlyWidget extends StatelessWidget {
                         builder: (context, value, child) {
                           return InkWell(
                             onTap: () {
-                              value.addFavorite(
-                                eventId: evvent.id,
-                                user: userModel,
-                              );
+                              if (Provider.of<UserProvider>(
+                                context,
+                                listen: false,
+                              ).userModel!.favoriteEvents.contains(evvent.id)) {
+                                value.deleteFavorite(
+                                  eventId: evvent.id,
+                                  user: userModel,
+                                );
+                              } else {
+                                value.addFavorite(
+                                  eventId: evvent.id,
+                                  user: userModel,
+                                );
+                              }
                             },
                             child: Icon(
                               Provider.of<UserProvider>(context, listen: false)
