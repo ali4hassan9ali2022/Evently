@@ -84,11 +84,13 @@ class EventlyWidget extends StatelessWidget {
                                 value.deleteFavorite(
                                   eventId: evvent.id,
                                   user: userModel,
+                                  context: context,
                                 );
                               } else {
                                 value.addFavorite(
                                   eventId: evvent.id,
                                   user: userModel,
+                                  context: context,
                                 );
                               }
                             },
