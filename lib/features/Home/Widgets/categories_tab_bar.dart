@@ -3,9 +3,10 @@ import 'package:evently/features/Home/Widgets/category_widget.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesTabBar extends StatefulWidget {
-  const CategoriesTabBar({super.key, required this.onChanged, required this.category});
+  const CategoriesTabBar({super.key, required this.onChanged, required this.category,required this.isDark});
   final Function(CategoryModel) onChanged;
   final List<CategoryModel> category;
+  final bool isDark;
   @override
   State<CategoriesTabBar> createState() => _CategoriesTabBarState();
 }
@@ -29,6 +30,7 @@ class _CategoriesTabBarState extends State<CategoriesTabBar> {
         },
         tabs: List.generate(widget.category.length, (index) {
           return CategoryWidget(
+            isDark: widget.isDark,
             category: widget.category[index],
             selectedIndex: selectedIndex,
             index: index,

@@ -2,11 +2,11 @@ import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/Widgets/custom_text_form_field.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
-import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Core/utils/firebase_helper.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -19,8 +19,9 @@ class LogInView extends StatelessWidget {
   Widget build(BuildContext context) {
     var userPrvider = Provider.of<UserProvider>(context);
     var size = MediaQuery.of(context).size;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return Scaffold(
-      backgroundColor: AppColor.offWhite,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -31,15 +32,20 @@ class LogInView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 16),
-                  Image.asset(AppAssets.imagesAppLogo),
+                  Image.asset(
+                    isDark ? AppAssets.darkLogo : AppAssets.imagesAppLogo,
+                  ),
                   SizedBox(height: size.height * 0.06),
                   Text(
                     "Login to your account",
                     textAlign: TextAlign.start,
-                    style: AppStyles.textStyleSemiBold24(color: AppColor.blue),
+                    style: AppStyles.textStyleSemiBold24(
+                      color: isDark ? AppColor.white : AppColor.blue,
+                    ),
                   ),
                   SizedBox(height: size.height * 0.03),
                   CustomTextFormField(
+                    style: TextStyle(color: AppColor.white),
                     controller: userPrvider.emailAddressLogin,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -54,9 +60,6 @@ class LogInView extends StatelessWidget {
                       return null;
                     },
                     hintText: "Enter your email",
-                    hintStyle: AppStyles.textStyleRegular14(
-                      color: AppColor.grey,
-                    ),
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -70,10 +73,6 @@ class LogInView extends StatelessWidget {
                         width: 24,
                       ),
                     ),
-                    filled: true,
-                    fillColor: AppColor.white,
-                    border: AppHelper.outlineInputBorder(),
-                    enabledBorder: AppHelper.outlineInputBorder(),
                   ),
                   SizedBox(height: size.height * 0.02),
                   CustomTextFormField(
@@ -85,12 +84,10 @@ class LogInView extends StatelessWidget {
                       }
                       return null;
                     },
+                    style: TextStyle(color: AppColor.white),
                     controller: userPrvider.passwordLogin,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: "Enter your password",
-                    hintStyle: AppStyles.textStyleRegular14(
-                      color: AppColor.grey,
-                    ),
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -108,10 +105,6 @@ class LogInView extends StatelessWidget {
                       onPressed: () {},
                       icon: Icon(Icons.visibility_off_outlined),
                     ),
-                    filled: true,
-                    fillColor: AppColor.white,
-                    border: AppHelper.outlineInputBorder(),
-                    enabledBorder: AppHelper.outlineInputBorder(),
                   ),
                   SizedBox(height: size.height * 0.001),
                   GestureDetector(
@@ -122,9 +115,11 @@ class LogInView extends StatelessWidget {
                       "Forget Password?",
                       textAlign: TextAlign.end,
                       style: AppStyles.textStyleSemiBold14().copyWith(
-                        color: AppColor.blue,
+                        color: isDark ? AppColor.dartBlue : AppColor.blue,
                         decoration: TextDecoration.underline,
-                        decorationColor: AppColor.blue,
+                        decorationColor: isDark
+                            ? AppColor.dartBlue
+                            : AppColor.blue,
                       ),
                     ),
                   ),
@@ -139,7 +134,7 @@ class LogInView extends StatelessWidget {
                     width: double.infinity,
                     borderRadius: 16,
                     height: 48,
-                    color: AppColor.blue,
+                    color: isDark ? AppColor.dartBlue : AppColor.blue,
                     child: Center(
                       child: userPrvider.isLoading
                           ? SizedBox(
@@ -164,7 +159,7 @@ class LogInView extends StatelessWidget {
                       Text(
                         "Don’t have an account ? ",
                         style: AppStyles.textStyleRegular14(
-                          color: AppColor.grey,
+                          color: isDark ? AppColor.darkGrey : AppColor.grey,
                         ),
                       ),
                       GestureDetector(
@@ -174,8 +169,11 @@ class LogInView extends StatelessWidget {
                         child: Text(
                           "Signup",
                           style: AppStyles.textStyleSemiBold14().copyWith(
-                            color: AppColor.blue,
+                            color: isDark ? AppColor.dartBlue : AppColor.blue,
                             decoration: TextDecoration.underline,
+                            decorationColor: isDark
+                                ? AppColor.dartBlue
+                                : AppColor.blue,
                           ),
                         ),
                       ),
@@ -184,7 +182,9 @@ class LogInView extends StatelessWidget {
                   SizedBox(height: size.height * 0.04),
                   Text(
                     "Or",
-                    style: AppStyles.textStyleMedium16(color: AppColor.blue),
+                    style: AppStyles.textStyleMedium16(
+                      color: isDark ? AppColor.dartBlue : AppColor.blue,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: size.height * 0.03),
@@ -192,19 +192,22 @@ class LogInView extends StatelessWidget {
                     onTap: () async {
                       await FirebaseHelper.signInWithGoogle();
                     },
-                    color: AppColor.white,
+                    color: isDark ? AppColor.darkBlue2 : AppColor.white,
+                    border: Border.all(
+                      color: isDark ? Color(0xff002678) : AppColor.lightGrey,
+                    ),
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
                     borderRadius: 16,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(AppAssets.imagesIcGmail),
+                        SvgPicture.asset(AppAssets.imagesGoolge),
                         SizedBox(width: 16),
                         Text(
                           "Login with Google",
                           style: AppStyles.textStyleMedium18(
-                            color: AppColor.blue,
+                            color: isDark ? AppColor.dartBlue : AppColor.blue,
                           ),
                         ),
                       ],

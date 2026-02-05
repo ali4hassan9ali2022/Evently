@@ -9,27 +9,28 @@ class ChooseTimeAndDateWidget extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.dec,
-    this.onTap,
+    this.onTap, required this.isDark,
   });
   final String icon;
   final String title;
   final String dec;
   final Function()? onTap;
+  final bool isDark;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SvgPicture.asset(icon, color: AppColor.blue),
+        SvgPicture.asset(icon, color:isDark ? AppColor.dartBlue :  AppColor.blue),
         SizedBox(width: 8),
-        Text(title, style: AppStyles.textStyleMedium16(color: AppColor.black)),
+        Text(title, style: AppStyles.textStyleMedium16(color: isDark ?  AppColor.white:  AppColor.black)),
         Spacer(),
         InkWell(
           onTap: onTap,
           child: Text(
             dec,
-            style: AppStyles.textStyleRegular14(color: AppColor.blue).copyWith(
+            style: AppStyles.textStyleRegular14(color: isDark ? AppColor.dartBlue :  AppColor.blue).copyWith(
               decoration: TextDecoration.underline,
-              decorationColor: AppColor.blue,
+              decorationColor: isDark ? AppColor.dartBlue : AppColor.blue,
             ),
           ),
         ),

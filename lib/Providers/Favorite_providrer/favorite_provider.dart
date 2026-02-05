@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-  List<EventModel> favoriteEvents = [];
+  List<EventModel> filterFavoriteEvents = [];
   List<EventModel> allFavoriteEvents = [];
   bool isLoading = false;
   void addFavorite({
@@ -47,7 +47,7 @@ class FavoriteProvider extends ChangeNotifier {
     required String uid,
     required BuildContext context,
   }) async {
-    favoriteEvents.clear();
+    filterFavoriteEvents.clear();
     allFavoriteEvents.clear();
     isLoading = true;
 
@@ -67,18 +67,18 @@ class FavoriteProvider extends ChangeNotifier {
       final eventModel = EventModel.fromJson(event);
       allFavoriteEvents.add(eventModel);
     }
-    favoriteEvents = List.from(allFavoriteEvents);
+    filterFavoriteEvents = List.from(allFavoriteEvents);
     isLoading = false;
     notifyListeners();
-    log("favorites = ${favoriteEvents.length}");
-    return favoriteEvents;
+    log("favorites = ${filterFavoriteEvents.length}");
+    return filterFavoriteEvents;
   }
 
   void searchFavorite({required String query}) {
     if (query.isEmpty) {
-      favoriteEvents = List.from(allFavoriteEvents);
+      filterFavoriteEvents = List.from(allFavoriteEvents);
     } else {
-      favoriteEvents = allFavoriteEvents.where((event) {
+      filterFavoriteEvents = allFavoriteEvents.where((event) {
         return event.title.toLowerCase().contains(query.toLowerCase());
       }).toList();
     }

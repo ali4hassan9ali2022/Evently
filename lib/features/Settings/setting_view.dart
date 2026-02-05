@@ -4,28 +4,24 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class SettingView extends StatefulWidget {
+class SettingView extends StatelessWidget {
   const SettingView({super.key});
 
-  @override
-  State<SettingView> createState() => _SettingViewState();
-}
-
-class _SettingViewState extends State<SettingView> {
-  bool value = false;
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
     var size = MediaQuery.of(context).size;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(color: AppColor.offWhite),
         padding: EdgeInsets.symmetric(vertical: 74, horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,13 +39,17 @@ class _SettingViewState extends State<SettingView> {
             Text(
               userProvider.userModel!.name,
               textAlign: TextAlign.center,
-              style: AppStyles.textStyleSemiBold20(color: AppColor.black),
+              style: AppStyles.textStyleSemiBold20(
+                color: isDark ? AppColor.white : AppColor.black,
+              ),
             ),
             SizedBox(height: 4),
             Text(
               userProvider.userModel!.email,
               textAlign: TextAlign.center,
-              style: AppStyles.textStyleRegular14(color: AppColor.grey),
+              style: AppStyles.textStyleRegular14(
+                color: isDark ? AppColor.darkGrey : AppColor.grey,
+              ),
             ),
             SizedBox(height: size.height * 0.039), //! 32
             Container(
@@ -57,7 +57,10 @@ class _SettingViewState extends State<SettingView> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               height: 48,
               decoration: BoxDecoration(
-                color: AppColor.white,
+                border: Border.all(
+                  color: isDark ? Color(0xff002678) : AppColor.lightGrey,
+                ),
+                color: isDark ? AppColor.darkBlue2 : AppColor.white,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
@@ -65,22 +68,29 @@ class _SettingViewState extends State<SettingView> {
                 children: [
                   Text(
                     "Dark mode",
-                    style: AppStyles.textStyleMedium16(color: AppColor.black),
-                  ),
-                  SizedBox(
-                    height: 16,
-                    child: Switch(
-                      padding: EdgeInsets.zero,
-                      activeThumbColor: AppColor.white,
-                      activeTrackColor: AppColor.blue,
-                      inactiveThumbColor: AppColor.white,
-                      inactiveTrackColor: AppColor.grey2,
-                      value: value,
-                      onChanged: (value) {
-                        this.value = value;
-                        setState(() {});
-                      },
+                    style: AppStyles.textStyleMedium16(
+                      color: isDark ? AppColor.white : AppColor.black,
                     ),
+                  ),
+                  Consumer<ThemeProvider>(
+                    builder: (context, prov, child) {
+                      return SizedBox(
+                        height: 16,
+                        child: Switch(
+                          padding: EdgeInsets.zero,
+                          activeThumbColor: AppColor.white,
+                          activeTrackColor: AppColor.dartBlue,
+                          inactiveThumbColor: AppColor.white,
+                          inactiveTrackColor: AppColor.grey2,
+                          value: prov.themeMode == ThemeMode.dark,
+                          onChanged: (value) {
+                            prov.updateTheme(
+                              value ? ThemeMode.dark : ThemeMode.light,
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -91,7 +101,10 @@ class _SettingViewState extends State<SettingView> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               height: 48,
               decoration: BoxDecoration(
-                color: AppColor.white,
+                border: Border.all(
+                  color: isDark ? Color(0xff002678) : AppColor.lightGrey,
+                ),
+                color: isDark ? AppColor.darkBlue2 : AppColor.white,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(
@@ -99,13 +112,15 @@ class _SettingViewState extends State<SettingView> {
                 children: [
                   Text(
                     "Language",
-                    style: AppStyles.textStyleMedium16(color: AppColor.black),
+                    style: AppStyles.textStyleMedium16(
+                      color: isDark ? AppColor.white : AppColor.black,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: SvgPicture.asset(
                       AppAssets.imageArrowRight,
-                      color: AppColor.blue,
+                      color: isDark ? AppColor.dartBlue : AppColor.blue,
                       width: 24,
                       height: 24,
                     ),
@@ -119,7 +134,10 @@ class _SettingViewState extends State<SettingView> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               height: 48,
               decoration: BoxDecoration(
-                color: AppColor.white,
+                border: Border.all(
+                  color: isDark ? Color(0xff002678) : AppColor.lightGrey,
+                ),
+                color: isDark ? AppColor.darkBlue2 : AppColor.white,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: InkWell(
@@ -158,7 +176,9 @@ class _SettingViewState extends State<SettingView> {
                   children: [
                     Text(
                       "Logout",
-                      style: AppStyles.textStyleMedium16(color: AppColor.black),
+                      style: AppStyles.textStyleMedium16(
+                        color: isDark ? AppColor.white : AppColor.black,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),

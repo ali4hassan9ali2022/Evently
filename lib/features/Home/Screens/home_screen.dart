@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
-import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:evently/features/Home/Widgets/evently_list_view.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var fetchProvider = Provider.of<FetchEventProvider>(context);
-
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -32,30 +35,39 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Welcome Back ✨",
-                      style: AppStyles.textStyleRegular14(),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 4),
                     Text(
                       Provider.of<UserProvider>(context).userModel!.name,
                       textAlign: TextAlign.left,
-                      style: AppStyles.textStyleMedium20().copyWith(
-                        color: AppColor.black,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: SvgPicture.asset(
-                        AppAssets.imagesSun,
-                        color: AppColor.blue,
-                        width: 24,
-                        height: 24,
+                    InkWell(
+                      onTap: () {
+                        var dark = themeProvider.updateTheme(
+                          isDark ? ThemeMode.light : ThemeMode.dark,
+                        );
+                        log("Dark: $dark");
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: SvgPicture.asset(
+                          AppAssets.imagesSun,
+                          color: AppColor.blue,
+                          width: 24,
+                          height: 24,
+                        ),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -63,13 +75,11 @@ class HomeScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: AppColor.blue,
+                        color: isDark ? AppColor.dartBlue : AppColor.blue,
                       ),
                       child: Text(
                         "EN",
-                        style: AppStyles.textStyleSemiBold14().copyWith(
-                          color: AppColor.white,
-                        ),
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
                   ],
@@ -79,6 +89,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
 
             CategoriesTabBar(
+              isDark: isDark,
               category: AppHelper.allCategories,
               onChanged: (value) {
                 fetchProvider.setSelectedCategory(value);

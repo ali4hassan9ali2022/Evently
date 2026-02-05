@@ -36,9 +36,7 @@ abstract final class AppHelper {
     );
   }
 
-  static List<Widget> pages = [HomeScreen(), FavoriteView(
-
-  ), SettingView()];
+  static List<Widget> pages = [HomeScreen(), FavoriteView(), SettingView()];
   static CategoryModel all = CategoryModel(
     name: "all",
     imagePath: "",

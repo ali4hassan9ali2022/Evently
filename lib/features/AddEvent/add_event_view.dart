@@ -6,6 +6,7 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Providers/Event_Provider/add_event_providr.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/AddEvent/widget/choose_time_date_widget.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class AddEventView extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var addEventProvidr = Provider.of<AddEventProvidr>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -28,9 +31,10 @@ class AddEventView extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: size.height * 0.023),
-                      AppBarWidget(title: "Add event"),
+                      AppBarWidget(title: "Add event", isDark: isDark),
                       SizedBox(height: size.height * 0.02), //! 16
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -41,6 +45,7 @@ class AddEventView extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.02), //! 16
                       CategoriesTabBar(
+                        isDark: isDark,
                         category: AppHelper.customCategories,
                         onChanged: (value) {
                           addEventProvidr.setSelectedCategory(value);
@@ -51,46 +56,31 @@ class AddEventView extends StatelessWidget {
                         "Title",
                         textAlign: TextAlign.start,
                         style: AppStyles.textStyleMedium16(
-                          color: AppColor.black,
+                          color: isDark ? AppColor.white : AppColor.black,
                         ),
                       ),
                       SizedBox(height: size.height * 0.01), //! 8
                       CustomTextFormField(
                         controller: addEventProvidr.titleController,
-                        border: AppHelper.outlineInputBorder(),
-                        enabledBorder: AppHelper.outlineInputBorder(),
-                        focusedBorder: AppHelper.outlineInputBorder(),
-                        filled: true,
-                        fillColor: AppColor.white,
                         hintText: "Event Title",
-                        hintStyle: AppStyles.textStyleRegular14(
-                          color: AppColor.grey,
-                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       Text(
                         "Description ",
                         textAlign: TextAlign.start,
                         style: AppStyles.textStyleMedium16(
-                          color: AppColor.black,
+                          color: isDark ? AppColor.white : AppColor.black,
                         ),
                       ),
                       SizedBox(height: size.height * 0.01), //! 8
                       CustomTextFormField(
                         controller: addEventProvidr.descriptionController,
-                        border: AppHelper.outlineInputBorder(),
-                        enabledBorder: AppHelper.outlineInputBorder(),
-                        focusedBorder: AppHelper.outlineInputBorder(),
-                        filled: true,
-                        fillColor: AppColor.white,
                         hintText: "Event Description....",
                         maxLines: 5,
-                        hintStyle: AppStyles.textStyleRegular14(
-                          color: AppColor.grey,
-                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       ChooseTimeAndDateWidget(
+                        isDark: isDark,
                         onTap: () async {
                           addEventProvidr.selectData(context: context);
                         },
@@ -102,6 +92,7 @@ class AddEventView extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.02),
                       ChooseTimeAndDateWidget(
+                        isDark: isDark,
                         onTap: () async {
                           addEventProvidr.selectTime(context: context);
                         },
@@ -115,6 +106,7 @@ class AddEventView extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: size.height * 0.02),
               CustomButton(
                 onTap: () async {
                   await addEventProvidr.createEvent(context: context);
@@ -122,13 +114,12 @@ class AddEventView extends StatelessWidget {
                 width: double.infinity,
                 borderRadius: 16,
                 height: 48,
-                color: AppColor.blue,
+                color: isDark ? AppColor.dartBlue : AppColor.blue,
                 child: Center(
                   child: addEventProvidr.isLoading
                       ? SizedBox(
                           height: 20,
                           width: 20,
-
                           child: CircularProgressIndicator(
                             color: AppColor.white,
                           ),

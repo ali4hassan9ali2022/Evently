@@ -9,30 +9,38 @@ class CategoryWidget extends StatelessWidget {
     required this.category,
     required this.selectedIndex,
     required this.index,
+    required this.isDark,
   });
   final CategoryModel category;
   final int selectedIndex;
   final int index;
+  final bool isDark;
   @override
   Widget build(BuildContext context) {
     bool isSelected = index == selectedIndex;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
-        color: isSelected ? AppColor.blue : AppColor.white,
+        color: isSelected
+            ? (isDark ? AppColor.dartBlue : AppColor.blue)
+            : (isDark ? AppColor.darkBlue2 : AppColor.white),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
           Icon(
             category.icon,
-            color: isSelected ? AppColor.white : AppColor.blue,
+            color: isSelected
+                ? AppColor.white
+                : (isDark ? AppColor.dartBlue : AppColor.blue),
           ),
           SizedBox(width: 8),
           Text(
             category.name,
             style: AppStyles.textStyleMedium18().copyWith(
-              color: isSelected ? AppColor.white : AppColor.blue,
+              color: isSelected
+                  ? AppColor.white
+                  : (isDark? AppColor.white : AppColor.blue),
             ),
           ),
         ],

@@ -1,9 +1,11 @@
+import 'package:evently/Core/Theme/theme_app.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Event_Provider/add_event_providr.dart';
 import 'package:evently/Providers/Event_Provider/delete_event_provider.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +31,19 @@ class EventlyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AddEventProvidr()),
         ChangeNotifierProvider(create: (context) => DeleteEventProvider()),
         ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: "Evently",
-        routerConfig: AppRouter.router,
+      child: Consumer<ThemeProvider>(
+        builder: (context, value, child) {
+          return MaterialApp.router(
+            theme: ThemeApp.lightTheme,
+            darkTheme: ThemeApp.darkTheme,
+            themeMode: value.themeMode,
+            debugShowCheckedModeBanner: false,
+            title: "Evently",
+            routerConfig: AppRouter.router,
+          );
+        },
       ),
     );
   }

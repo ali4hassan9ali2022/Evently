@@ -9,11 +9,13 @@ import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/event_model.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/AddEvent/widget/choose_time_date_widget.dart';
 import 'package:evently/features/Home/Widgets/categories_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EditEventView extends StatefulWidget {
   const EditEventView({super.key, required this.eventModel});
@@ -53,6 +55,8 @@ class _EditEventViewState extends State<EditEventView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -64,9 +68,10 @@ class _EditEventViewState extends State<EditEventView> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: size.height * 0.023),
-                      AppBarWidget(title: "Edit event"),
+                      AppBarWidget(title: "Edit event", isDark: isDark),
                       SizedBox(height: size.height * 0.02), //! 16
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -77,6 +82,7 @@ class _EditEventViewState extends State<EditEventView> {
                       ),
                       SizedBox(height: size.height * 0.02), //! 16
                       CategoriesTabBar(
+                        isDark: isDark,
                         category: AppHelper.customCategories,
                         onChanged: (value) {
                           selectCategory = value;
@@ -88,46 +94,31 @@ class _EditEventViewState extends State<EditEventView> {
                         "Title",
                         textAlign: TextAlign.start,
                         style: AppStyles.textStyleMedium16(
-                          color: AppColor.black,
+                          color: isDark ? AppColor.white : AppColor.black,
                         ),
                       ),
                       SizedBox(height: size.height * 0.01), //! 8
                       CustomTextFormField(
                         controller: titleController,
-                        border: AppHelper.outlineInputBorder(),
-                        enabledBorder: AppHelper.outlineInputBorder(),
-                        focusedBorder: AppHelper.outlineInputBorder(),
-                        filled: true,
-                        fillColor: AppColor.white,
                         hintText: "Event Title",
-                        hintStyle: AppStyles.textStyleRegular14(
-                          color: AppColor.grey,
-                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       Text(
                         "Description ",
                         textAlign: TextAlign.start,
                         style: AppStyles.textStyleMedium16(
-                          color: AppColor.black,
+                          color: isDark ? AppColor.white : AppColor.black,
                         ),
                       ),
                       SizedBox(height: size.height * 0.01), //! 8
                       CustomTextFormField(
                         controller: descriptionController,
-                        border: AppHelper.outlineInputBorder(),
-                        enabledBorder: AppHelper.outlineInputBorder(),
-                        focusedBorder: AppHelper.outlineInputBorder(),
-                        filled: true,
-                        fillColor: AppColor.white,
                         hintText: "Event Description....",
                         maxLines: 5,
-                        hintStyle: AppStyles.textStyleRegular14(
-                          color: AppColor.grey,
-                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       ChooseTimeAndDateWidget(
+                        isDark: isDark,
                         onTap: () async {
                           DateTime? picked = await showDatePicker(
                             context: context,
@@ -147,6 +138,7 @@ class _EditEventViewState extends State<EditEventView> {
                       ),
                       SizedBox(height: size.height * 0.02),
                       ChooseTimeAndDateWidget(
+                        isDark: isDark,
                         onTap: () async {
                           TimeOfDay? picked = await showTimePicker(
                             context: context,
@@ -166,6 +158,7 @@ class _EditEventViewState extends State<EditEventView> {
                   ),
                 ),
               ),
+              SizedBox(height: size.height * 0.02),
               CustomButton(
                 onTap: () async {
                   updateEvent();
@@ -173,7 +166,7 @@ class _EditEventViewState extends State<EditEventView> {
                 width: double.infinity,
                 borderRadius: 16,
                 height: 48,
-                color: AppColor.blue,
+                color: isDark ? AppColor.dartBlue : AppColor.blue,
                 child: Center(
                   child: Text(
                     "Update event",

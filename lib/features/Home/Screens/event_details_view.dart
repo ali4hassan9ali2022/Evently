@@ -6,6 +6,7 @@ import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Event_Provider/delete_event_provider.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -26,8 +27,9 @@ class EventDetailsView extends StatelessWidget {
     ).userModel!.userId;
     bool isOwner = userId == eventModel.ownerId;
     log(eventModel.title);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return Scaffold(
-      backgroundColor: AppColor.offWhite,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -38,17 +40,25 @@ class EventDetailsView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
+                  IconButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isDark
+                          ? AppColor.darkBlue2
+                          : AppColor.offWhite,
+                    ),
+                    onPressed: () {
                       GoRouter.of(context).pop();
                     },
-                    child: SvgPicture.asset(AppAssets.imagesBack),
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: isDark ? AppColor.white : AppColor.blue,
+                    ),
                   ),
                   Text(
                     "title",
                     textAlign: TextAlign.center,
                     style: AppStyles.textStyleMedium18().copyWith(
-                      color: AppColor.black,
+                      color: isDark ? AppColor.white : AppColor.black,
                     ),
                   ),
                   Row(
@@ -112,24 +122,38 @@ class EventDetailsView extends StatelessWidget {
               SizedBox(height: size.height * 0.02),
               Text(
                 eventModel.title,
-                style: AppStyles.textStyleMedium18(color: AppColor.black),
+                style: AppStyles.textStyleMedium18(
+                  color: isDark ? AppColor.white : AppColor.black,
+                ),
               ),
               SizedBox(height: size.height * 0.02),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 decoration: BoxDecoration(
-                  color: AppColor.white,
+                  color: isDark ? AppColor.darkBlue2 : AppColor.offWhite,
                   borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isDark ? AppColor.dartBlue : AppColor.lightGrey,
+                  ),
                 ),
                 child: Row(
                   children: [
                     Container(
                       padding: EdgeInsets.all(10),
+
                       decoration: BoxDecoration(
-                        color: AppColor.offWhite,
+                        border: Border.all(
+                          color: isDark
+                              ? AppColor.dartBlue
+                              : AppColor.lightGrey,
+                        ),
+                        color: isDark ? AppColor.darkBlue2 : AppColor.offWhite,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: SvgPicture.asset(AppAssets.imagesIcCalendar),
+                      child: SvgPicture.asset(
+                        AppAssets.imagesIcCalendar,
+                        color: isDark ? AppColor.dartBlue : AppColor.darkBlue,
+                      ),
                     ),
                     SizedBox(width: 16),
                     Column(
@@ -138,14 +162,14 @@ class EventDetailsView extends StatelessWidget {
                         Text(
                           "${eventModel.dateTime.day} January",
                           style: AppStyles.textStyleMedium16(
-                            color: AppColor.black,
+                            color: isDark ? AppColor.white : AppColor.black,
                           ),
                         ),
                         Text(
                           time,
                           textAlign: TextAlign.start,
                           style: AppStyles.textStyleMedium16(
-                            color: AppColor.grey2,
+                            color: isDark ? AppColor.darkGrey : AppColor.grey2,
                           ),
                         ),
                       ],
@@ -164,12 +188,17 @@ class EventDetailsView extends StatelessWidget {
                 padding: EdgeInsets.all(16),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColor.white,
+                  border: Border.all(
+                    color: isDark ? AppColor.dartBlue : AppColor.lightGrey,
+                  ),
+                  color: isDark ? AppColor.darkBlue2 : AppColor.white,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
                   eventModel.description,
-                  style: AppStyles.textStyleRegular14(color: AppColor.black),
+                  style: AppStyles.textStyleRegular14(
+                    color: isDark ? AppColor.white : AppColor.black,
+                  ),
                 ),
               ),
             ],

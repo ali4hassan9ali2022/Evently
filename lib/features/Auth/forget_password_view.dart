@@ -3,7 +3,9 @@ import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ForgetPasswordView extends StatelessWidget {
   const ForgetPasswordView({super.key});
@@ -11,6 +13,8 @@ class ForgetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -18,7 +22,7 @@ class ForgetPasswordView extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: size.height * 0.023),
-              AppBarWidget(title: "Forget Password"),
+              AppBarWidget(title: "Forget Password", isDark: isDark),
               SizedBox(height: size.height * 0.08),
               Image.asset(AppAssets.imagesForgetPassword, fit: BoxFit.fill),
               SizedBox(height: size.height * 0.05),

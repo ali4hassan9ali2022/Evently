@@ -58,6 +58,9 @@ abstract final class AppAssets {
   /// Assets for imagesIcAll
   /// assets/images/ic_all.svg
   static const String imagesIcAll = "assets/images/ic_all.svg";
+  static const String imagesHomeAcitve = "assets/images/home_active.svg";
+  static const String imagesHeartActive = "assets/images/heart_active.svg";
+  static const String imagesUserActive = "assets/images/user_active.svg";
 
   /// Assets for imagesIcBike
   /// assets/images/ic_bike.svg
@@ -122,9 +125,16 @@ abstract final class AppAssets {
   static const String imagesForgetPassword = "assets/images/forgetPassword.png";
   static const String imagesBack = "assets/images/Back.svg";
   static const String imagesSun = "assets/images/sun.svg";
+  static const String imagesGoolge = "assets/images/Google.svg";
   static const String imagesSearch = "assets/images/search.svg";
   static const String imageArrowRight = "assets/images/arrow-right.svg";
   static const String imageLogout = "assets/images/logout.svg";
   static const String imageDelete = "assets/images/delete.svg";
   static const String imageEdit = "assets/images/edit.svg";
+  static const String darkLogo = "assets/images/darkLogo.png";
+  static const String darkOnBoarding = "assets/images/darkOnBoarding.png";
+  static const String darkOnBoardingOne = "assets/images/darkOnBoardingOne.png";
+  static const String darkOnBoardingTwo = "assets/images/darkOnBoardingTwo.png";
+  static const String darkOnBoardingThree = "assets/images/darkOnBoardingThree.png";
+  static const String darkchange = "assets/images/darkchange-setting.png";
 }
