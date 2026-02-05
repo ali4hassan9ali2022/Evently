@@ -61,18 +61,18 @@ class EventDetailsView extends StatelessWidget {
                       color: isDark ? AppColor.white : AppColor.black,
                     ),
                   ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          GoRouter.of(
-                            context,
-                          ).push(AppRouter.editEvent, extra: eventModel);
-                        },
-                        child: SvgPicture.asset(AppAssets.imageEdit),
-                      ),
-                      SizedBox(width: 8),
-                      if (isOwner) // لو صاحب الايفينت بس يظهر زر الحذف
+                  if (isOwner)
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            GoRouter.of(
+                              context,
+                            ).push(AppRouter.editEvent, extra: eventModel);
+                          },
+                          child: SvgPicture.asset(AppAssets.imageEdit),
+                        ),
+                        SizedBox(width: 8),
                         InkWell(
                           onTap: () {
                             showDialog(
@@ -107,8 +107,8 @@ class EventDetailsView extends StatelessWidget {
                           },
                           child: SvgPicture.asset(AppAssets.imageDelete),
                         ),
-                    ],
-                  ),
+                      ],
+                    ),
                 ],
               ),
               SizedBox(height: size.height * 0.02),

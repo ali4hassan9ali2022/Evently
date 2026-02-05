@@ -32,6 +32,7 @@ class EventlyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DeleteEventProvider()),
         ChangeNotifierProvider(create: (context) => FavoriteProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
