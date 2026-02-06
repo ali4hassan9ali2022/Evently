@@ -160,13 +160,6 @@ class UserProvider extends ChangeNotifier {
   bool isLoadingGoogle = false;
   //! Sign With Google
   Future<void> signInWithGoogle({required BuildContext context}) async {
-    if (isLoadingGoogle) {
-      CustomToastWidget.showErrorToast(
-        "Google sign-in is already in progress.",
-      );
-      return;
-    }
-
     isLoadingGoogle = true;
     notifyListeners();
 
