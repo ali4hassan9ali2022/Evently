@@ -149,6 +149,44 @@ class SettingView extends StatelessWidget {
               ),
             ),
             SizedBox(height: size.height * 0.02), //! 16
+            InkWell(
+              onTap: () {
+                GoRouter.of(context).push(AppRouter.myEvents);
+              },
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                height: 48,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isDark ? Color(0xff002678) : AppColor.lightGrey,
+                  ),
+                  color: isDark ? AppColor.darkBlue2 : AppColor.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "My Events",
+                      style: AppStyles.textStyleMedium16(
+                        color: isDark ? AppColor.white : AppColor.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SvgPicture.asset(
+                        AppAssets.imageArrowRight,
+                        color: isDark ? AppColor.dartBlue : AppColor.blue,
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.02), //! 16
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 16),

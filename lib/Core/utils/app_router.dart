@@ -8,6 +8,7 @@ import 'package:evently/features/Home/Screens/event_details_view.dart';
 import 'package:evently/features/Home/main_view.dart';
 import 'package:evently/features/OnBoarding/main_on_boarding.dart';
 import 'package:evently/features/OnBoarding/on_boarding_view.dart';
+import 'package:evently/features/Settings/my_events_view.dart';
 import 'package:evently/features/Splash/splah_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,7 @@ abstract final class AppRouter {
   static const String addEventlyView = "/AddEventlyView";
   static const String eventDetails = "/EventDetailsView";
   static const String editEvent = "/EditEventView";
+  static const String myEvents = "/MyEventsView";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => SplahView()),
@@ -64,6 +66,8 @@ abstract final class AppRouter {
           return EditEventView(eventModel: eventModel);
         },
       ),
+
+      GoRoute(path:myEvents, builder: (context, state) => MyEventsView(), )
     ],
   );
 }
