@@ -5,21 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChangeThemeWidget extends StatelessWidget {
-  const ChangeThemeWidget({super.key, required this.title});
+  const ChangeThemeWidget({super.key, required this.title, required this.isDark, required this.isSys});
 
   final String title;
+  final bool isDark;
+  final bool isSys;
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.themeMode == ThemeMode.dark;
+    
 
     return Row(
       children: [
         Text(
           title,
           style: AppStyles.textStyleMedium18(
-            color: isDark ? AppColor.white : AppColor.blue,
+            color: (isDark || isSys) ? AppColor.white : AppColor.blue,
           ),
         ),
         const Spacer(),
@@ -36,7 +38,7 @@ class ChangeThemeWidget extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: !isDark ? AppColor.blue : Color(0xff001440),
+                  color: !(isDark || isSys) ? AppColor.blue : Color(0xff001440),
                 ),
                 child: Icon(Icons.light_mode_outlined, color: Colors.white),
               ),
@@ -53,11 +55,11 @@ class ChangeThemeWidget extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: isDark ? AppColor.dartBlue : AppColor.white,
+                  color: (isDark || isSys) ? AppColor.dartBlue : AppColor.white,
                 ),
                 child: Icon(
                   Icons.dark_mode_outlined,
-                  color: isDark ? AppColor.offWhite : AppColor.blue,
+                  color: (isDark || isSys) ? AppColor.offWhite : AppColor.blue,
                 ),
               ),
             ),
@@ -73,21 +75,21 @@ class ChangeLanguageWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitleOne,
-    required this.subtitleTwo,
+    required this.subtitleTwo, required this.isDark, required this.isSys,
   });
   final String title;
   final Widget subtitleOne;
   final Widget subtitleTwo;
+  final bool isDark;
+  final bool isSys;
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return Row(
       children: [
         Text(
           title,
           style: AppStyles.textStyleMedium18(
-            color: isDark ? AppColor.white : AppColor.blue,
+            color: (isDark || isSys) ? AppColor.white : AppColor.blue,
           ),
         ),
         Spacer(),

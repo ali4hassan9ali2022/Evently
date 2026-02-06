@@ -5,6 +5,7 @@ import 'package:evently/Providers/Event_Provider/add_event_providr.dart';
 import 'package:evently/Providers/Event_Provider/delete_event_provider.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
+import 'package:evently/Providers/OnBoarding_provider/on_boarding_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +33,7 @@ class EventlyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DeleteEventProvider()),
         ChangeNotifierProvider(create: (context) => FavoriteProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => OnBoardingProvider()),
         
       ],
       child: Consumer<ThemeProvider>(

@@ -133,8 +133,8 @@ abstract final class AppAssets {
   static const String imageEdit = "assets/images/edit.svg";
   static const String darkLogo = "assets/images/darkLogo.png";
   static const String darkOnBoarding = "assets/images/darkOnBoarding.png";
-  static const String darkOnBoardingOne = "assets/images/darkOnBoardingOne.png";
-  static const String darkOnBoardingTwo = "assets/images/darkOnBoardingTwo.png";
-  static const String darkOnBoardingThree = "assets/images/darkOnBoardingThree.png";
+  static const String darkOnBoardingOne = "assets/images/OnBoardingOne.png";
+  static const String darkOnBoardingTwo = "assets/images/OnBoardingTwo.png";
+  static const String darkOnBoardingThree = "assets/images/OnBoardingThree.png";
   static const String darkchange = "assets/images/darkchange-setting.png";
 }

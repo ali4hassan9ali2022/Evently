@@ -16,6 +16,7 @@ class OnBoardingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = themeProvider.themeMode == ThemeMode.dark;
+    final isSys = themeProvider.themeMode == ThemeMode.system;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -26,12 +27,14 @@ class OnBoardingView extends StatelessWidget {
             children: [
               SizedBox(height: size.height * 0.02),
               Image.asset(
-                isDark ? AppAssets.darkLogo : AppAssets.imagesAppLogo,
+                (isDark || isSys)
+                    ? AppAssets.darkLogo
+                    : AppAssets.imagesAppLogo,
               ),
 
               SizedBox(height: size.height * 0.03),
               Image.asset(
-                isDark
+                (isDark || isSys)
                     ? AppAssets.darkOnBoarding
                     : AppAssets.imagesBeingCreative,
                 fit: BoxFit.fill,
@@ -41,18 +44,20 @@ class OnBoardingView extends StatelessWidget {
               Text(
                 "Personalize Your Experience",
                 style: AppStyles.textStyleSemiBold20(
-                  color: isDark ? AppColor.white : AppColor.black,
+                  color: (isDark || isSys) ? AppColor.white : AppColor.black,
                 ),
               ),
               SizedBox(height: size.height * 0.01),
               Text(
                 "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
                 style: AppStyles.textStyleRegular16(
-                  color: isDark ? AppColor.darkGrey : AppColor.grey,
+                  color: (isDark || isSys) ? AppColor.darkGrey : AppColor.grey,
                 ),
               ),
               SizedBox(height: size.height * 0.023),
               ChangeLanguageWidget(
+                isDark: isDark,
+                isSys: isSys,
                 title: "Language",
                 subtitleOne: Text(
                   "English",
@@ -64,7 +69,7 @@ class OnBoardingView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: size.height * 0.02),
-              ChangeThemeWidget(title: "Theme"),
+              ChangeThemeWidget(title: "Theme", isDark: isDark, isSys: isSys),
               SizedBox(height: size.height * 0.03),
               CustomButton(
                 onTap: () {
@@ -75,7 +80,7 @@ class OnBoardingView extends StatelessWidget {
                 width: double.infinity,
                 borderRadius: 16,
                 height: 48,
-                color: isDark ? AppColor.dartBlue : AppColor.blue,
+                color: (isDark || isSys) ? AppColor.dartBlue : AppColor.blue,
                 child: Center(
                   child: Text(
                     "Let’s start",

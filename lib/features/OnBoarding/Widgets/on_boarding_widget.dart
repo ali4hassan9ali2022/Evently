@@ -2,12 +2,11 @@ import 'package:evently/Core/Widgets/custom_button.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
-import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
 import 'package:evently/Models/on_boarding_model.dart';
+import 'package:evently/Providers/OnBoarding_provider/on_boarding_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class OnBoardingWidget extends StatelessWidget {
@@ -23,6 +22,7 @@ class OnBoardingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final onBoarding = Provider.of<OnBoardingProvider>(context);
     final isDark = themeProvider.themeMode == ThemeMode.dark;
     var size = MediaQuery.of(context).size;
     return Padding(
@@ -58,7 +58,7 @@ class OnBoardingWidget extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  GoRouter.of(context).pushReplacement(AppRouter.logIn);
+                  onBoarding.saveOnBoardind(context: context);
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -80,12 +80,10 @@ class OnBoardingWidget extends StatelessWidget {
           Image.asset(
             item.image,
             fit: BoxFit.fill,
-
-            height: MediaQuery.sizeOf(context).height * 0.4,
+            width: MediaQuery.sizeOf(context).width * 0.5,
+            height: MediaQuery.sizeOf(context).height * 0.38,
           ),
-          SizedBox(height: 8),
-
-          SizedBox(height: 16),
+          SizedBox(height: size.height * 0.05),
           Text(
             item.title,
             style: AppStyles.textStyleSemiBold20(
@@ -108,7 +106,7 @@ class OnBoardingWidget extends StatelessWidget {
                   curve: Curves.easeInOut,
                 );
               } else {
-                GoRouter.of(context).pushReplacement(AppRouter.logIn);
+                onBoarding.saveOnBoardind(context: context);
               }
             },
             width: double.infinity,
