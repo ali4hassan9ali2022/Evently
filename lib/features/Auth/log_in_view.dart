@@ -4,6 +4,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class LogInView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.06),
                   Text(
-                    "Login to your account",
+                    context.loc.loginToYourAccount,
                     textAlign: TextAlign.start,
                     style: AppStyles.textStyleSemiBold24(
                       color: isDark ? AppColor.white : AppColor.blue,
@@ -54,13 +55,13 @@ class LogInView extends StatelessWidget {
                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                       );
                       if (value!.isEmpty) {
-                        return "Please enter your email";
+                        return context.loc.valEmail;
                       } else if (!rgx.hasMatch(value)) {
-                        return "Please enter a valid email";
+                        return context.loc.valEmailOne;
                       }
                       return null;
                     },
-                    hintText: "Enter your email",
+                    hintText: context.loc.hintEmail,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -79,9 +80,9 @@ class LogInView extends StatelessWidget {
                   CustomTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Please enter your password";
+                        return context.loc.valPasswordOne;
                       } else if (value.length < 7) {
-                        return "Password must be at least 6 characters";
+                        return context.loc.valPasswordTwo;
                       }
                       return null;
                     },
@@ -90,7 +91,7 @@ class LogInView extends StatelessWidget {
                     ),
                     controller: userPrvider.passwordLogin,
                     keyboardType: TextInputType.visiblePassword,
-                    hintText: "Enter your password",
+                    hintText: context.loc.hintPassword,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -124,7 +125,7 @@ class LogInView extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      "Forget Password?",
+                      "${context.loc.forgetPassword}?",
                       textAlign: TextAlign.end,
                       style: AppStyles.textStyleSemiBold14().copyWith(
                         color: isDark ? AppColor.dartBlue : AppColor.blue,
@@ -157,7 +158,7 @@ class LogInView extends StatelessWidget {
                               ),
                             )
                           : Text(
-                              "Login",
+                              context.loc.login,
                               style: AppStyles.textStyleMedium20(
                                 color: AppColor.white,
                               ),
@@ -169,7 +170,7 @@ class LogInView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don’t have an account ? ",
+                        context.loc.dontHaveAnAccount,
                         style: AppStyles.textStyleRegular14(
                           color: isDark ? AppColor.darkGrey : AppColor.grey,
                         ),
@@ -179,7 +180,7 @@ class LogInView extends StatelessWidget {
                           GoRouter.of(context).push(AppRouter.register);
                         },
                         child: Text(
-                          "Signup",
+                        context.loc.signUp,
                           style: AppStyles.textStyleSemiBold14().copyWith(
                             color: isDark ? AppColor.dartBlue : AppColor.blue,
                             decoration: TextDecoration.underline,
@@ -193,7 +194,7 @@ class LogInView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.04),
                   Text(
-                    "Or",
+                    context.loc.or,
                     style: AppStyles.textStyleMedium16(
                       color: isDark ? AppColor.dartBlue : AppColor.blue,
                     ),
@@ -227,7 +228,7 @@ class LogInView extends StatelessWidget {
                               SvgPicture.asset(AppAssets.imagesGoolge),
                               SizedBox(width: 16),
                               Text(
-                                "Login with Google",
+                                context.loc.loginWithGoogle,
                                 style: AppStyles.textStyleMedium18(
                                   color: isDark
                                       ? AppColor.dartBlue

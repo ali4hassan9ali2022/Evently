@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_router.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,16 +43,16 @@ class UserProvider extends ChangeNotifier {
       log(UserModel.currentUser.toString());
       await GoRouter.of(context).pushReplacement(AppRouter.mainView);
       log("Register successfully");
-      CustomToastWidget.showSuccessToast("Register successfully");
+      CustomToastWidget.showSuccessToast(context.loc.registerSuccessfully);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        CustomToastWidget.showErrorToast("The password provided is too weak.");
+        CustomToastWidget.showErrorToast(context.loc.passwordFailed);
       } else if (e.code == 'email-already-in-use') {
         CustomToastWidget.showErrorToast(
-          "The account already exists for that email.",
+          context.loc.emailFailed,
         );
       } else {
-        CustomToastWidget.showErrorToast("Something went wrong.");
+        CustomToastWidget.showErrorToast(context.loc.something);
       }
     } catch (e) {
       CustomToastWidget.showErrorToast(e.toString());
@@ -82,7 +83,7 @@ class UserProvider extends ChangeNotifier {
       userModel = await getUser(userId: credential.user!.uid);
       GoRouter.of(context).pushReplacement(AppRouter.mainView);
       log("Login successfully");
-      CustomToastWidget.showSuccessToast("Login successfully");
+      CustomToastWidget.showSuccessToast(context.loc.loginSuccessfully);
     } on FirebaseAuthException catch (e) {
       CustomToastWidget.showErrorToast(e.message ?? "Auth error");
       log("Login failed by FirebaseAuthException");
@@ -133,14 +134,14 @@ class UserProvider extends ChangeNotifier {
   }
 
   //! Reset Password
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String email, BuildContext context) async {
     if (isLoading) return;
     isLoading = true;
     notifyListeners();
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       CustomToastWidget.showSuccessToast(
-        "If this email exists, a reset link has been sent",
+        context.loc.resetSentEmail,
       );
       log("If this email exists, a reset link has been sent");
     } on FirebaseAuthException catch (e) {
@@ -168,7 +169,7 @@ class UserProvider extends ChangeNotifier {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser == null) {
-        CustomToastWidget.showErrorToast("Google sign-in was cancelled.");
+        CustomToastWidget.showErrorToast(context.loc.googleCanceled);
         return;
       }
 
@@ -203,7 +204,7 @@ class UserProvider extends ChangeNotifier {
       userModel = await getUser(userId: userCredential.user!.uid);
 
       GoRouter.of(context).pushReplacement(AppRouter.mainView);
-      CustomToastWidget.showSuccessToast("Google sign-in successful.");
+      CustomToastWidget.showSuccessToast(context.loc.googleSuccessful);
     } catch (e) {
       CustomToastWidget.showErrorToast(e.toString());
       log(e.toString());

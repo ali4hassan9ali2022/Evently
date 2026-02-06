@@ -3,7 +3,9 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
+import 'package:evently/Providers/Language_provider/language_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,8 @@ class SettingView extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = themeProvider.themeMode == ThemeMode.dark;
+    final langProvider = Provider.of<LanguageProvider>(context);
+    final currentLang = langProvider.lang.languageCode;
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 74, horizontal: 16),
@@ -74,7 +78,7 @@ class SettingView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Dark mode",
+                    context.loc.darkMode,
                     style: AppStyles.textStyleMedium16(
                       color: isDark ? AppColor.white : AppColor.black,
                     ),
@@ -118,18 +122,27 @@ class SettingView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Language",
+                    context.loc.language,
                     style: AppStyles.textStyleMedium16(
                       color: isDark ? AppColor.white : AppColor.black,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: SvgPicture.asset(
-                      AppAssets.imageArrowRight,
-                      color: isDark ? AppColor.dartBlue : AppColor.blue,
-                      width: 24,
-                      height: 24,
+                  InkWell(
+                    onTap: () {
+                      if (currentLang == "en") {
+                        langProvider.saveLanguage("ar");
+                      } else {
+                        langProvider.saveLanguage("en");
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SvgPicture.asset(
+                        AppAssets.imageArrowRight,
+                        color: isDark ? AppColor.dartBlue : AppColor.blue,
+                        width: 24,
+                        height: 24,
+                      ),
                     ),
                   ),
                 ],
@@ -152,14 +165,14 @@ class SettingView extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text("Logout"),
-                      content: Text("Are you sure you want to logout?"),
+                      title: Text(context.loc.logOut),
+                      content: Text(context.loc.logoutSuccessfully),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("Cancel"),
+                          child: Text(context.loc.cancel),
                         ),
                         TextButton(
                           onPressed: () async {
@@ -169,10 +182,10 @@ class SettingView extends StatelessWidget {
                               context,
                             ).pushReplacement(AppRouter.logIn);
                             CustomToastWidget.showSuccessToast(
-                              "Logout successfully",
+                              context.loc.logoutSuccessfully,
                             );
                           },
-                          child: Text("Logout"),
+                          child: Text(context.loc.logOut),
                         ),
                       ],
                     ),
@@ -182,7 +195,7 @@ class SettingView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Logout",
+                      context.loc.logOut,
                       style: AppStyles.textStyleMedium16(
                         color: isDark ? AppColor.white : AppColor.black,
                       ),

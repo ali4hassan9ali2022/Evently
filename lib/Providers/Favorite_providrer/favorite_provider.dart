@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/Core/Widgets/toast_widget.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Models/user_model.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
@@ -24,6 +26,7 @@ class FavoriteProvider extends ChangeNotifier {
     user.favoriteEvents = favoriteEventIds;
     documentReference.update({"favorites": user.favoriteEvents});
     log("add favorite success");
+    CustomToastWidget.showSuccessToast(context.loc.eventAddedToFavoritesSuccessful);
     getFavoriteEvents(uid: user.userId, context: context);
     notifyListeners();
   }
@@ -40,6 +43,7 @@ class FavoriteProvider extends ChangeNotifier {
     documentReference.update({"favorites": user.favoriteEvents});
     getFavoriteEvents(uid: user.userId, context: context);
     log("Delete favorite success");
+    CustomToastWidget.showErrorToast(context.loc.eventDeletedToFavoritesSuccessful);
     notifyListeners();
   }
 

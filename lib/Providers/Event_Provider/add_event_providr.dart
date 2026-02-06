@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_helper.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
@@ -54,7 +55,7 @@ class AddEventProvidr extends ChangeNotifier {
       );
       fetchProvider.events.add(eventModel);
       fetchProvider.filterEvents();
-      CustomToastWidget.showSuccessToast("Event added successfully");
+      CustomToastWidget.showSuccessToast(context.loc.eventAddedSuccessful);
       await Provider.of<FetchEventProvider>(context, listen: false).getEvents();
       isLoading = false;
       notifyListeners();

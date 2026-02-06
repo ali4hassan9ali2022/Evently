@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/toast_widget.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
@@ -66,7 +67,7 @@ class UpdateEventProvider extends ChangeNotifier {
         "categoryModel": selectCategory.toJson(),
         "ownerId": ownerId,
       });
-      CustomToastWidget.showSuccessToast("Event updated successfully");
+      CustomToastWidget.showSuccessToast(context.loc.eventUpdatedSuccessful);
       await Provider.of<FetchEventProvider>(context, listen: false).getEvents();
       GoRouter.of(context).pop();
       isLoading = false;

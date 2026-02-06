@@ -11,7 +11,8 @@ class EventlyWidget extends StatelessWidget {
   const EventlyWidget({
     super.key,
     required this.evvent,
-    required this.userModel, required this.isDark,
+    required this.userModel,
+    required this.isDark,
   });
   final EventModel evvent;
   final UserModel userModel;
@@ -21,11 +22,15 @@ class EventlyWidget extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * .30,
       padding: EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+
+        border: Border.all(color: isDark ? AppColor.dartBlue : AppColor.grey2),
+      ),
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(16),
             child: Image.asset(
               evvent.categoryModel.getImagePath(isDark),
               fit: BoxFit.fill,
@@ -42,14 +47,17 @@ class EventlyWidget extends StatelessWidget {
                   margin: EdgeInsets.all(8),
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
+                    border: Border.all(
+                      color: isDark ? AppColor.dartBlue : AppColor.grey2,
+                    ),
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColor.offWhite,
+                    color: isDark ? AppColor.darkBlue : AppColor.offWhite,
                   ),
                   child: Text(
                     "${evvent.dateTime.day} Jan",
                     textAlign: TextAlign.start,
                     style: AppStyles.textStyleRegular16().copyWith(
-                      color: AppColor.blue,
+                      color: isDark ? AppColor.dartBlue : AppColor.blue,
                     ),
                   ),
                 ),
@@ -57,11 +65,15 @@ class EventlyWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
+                  width: double.infinity,
                   margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColor.offWhite,
+                    color: isDark ? AppColor.darkBlue : AppColor.offWhite,
+                    border: Border.all(
+                      color: isDark ? AppColor.dartBlue : AppColor.grey2,
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +114,7 @@ class EventlyWidget extends StatelessWidget {
                                       .contains(evvent.id)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
-                              color: AppColor.blue,
+                              color: isDark ? AppColor.dartBlue : AppColor.blue,
                             ),
                           );
                         },

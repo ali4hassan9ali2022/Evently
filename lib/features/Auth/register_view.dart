@@ -3,6 +3,7 @@ import 'package:evently/Core/Widgets/custom_text_form_field.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 
@@ -36,7 +37,7 @@ class RegisterView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.06),
                   Text(
-                    "Create your account",
+                    context.loc.createYourAccount,
                     textAlign: TextAlign.start,
                     style: AppStyles.textStyleSemiBold24(
                       color: isDark ? AppColor.white : AppColor.blue,
@@ -46,13 +47,13 @@ class RegisterView extends StatelessWidget {
                   CustomTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Please enter your name";
+                        return context.loc.valName;
                       }
                       return null;
                     },
                     controller: userPrvider.name,
                     keyboardType: TextInputType.name,
-                    hintText: "Enter your name",
+                    hintText: context.loc.hintName,
                     hintStyle: AppStyles.textStyleRegular14().copyWith(
                       color: isDark ? AppColor.darkGrey : AppColor.grey,
                     ),
@@ -77,16 +78,16 @@ class RegisterView extends StatelessWidget {
                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                       );
                       if (value!.isEmpty) {
-                        return "Please enter your email";
+                        return context.loc.valEmail;
                       }
                       if (!reg.hasMatch(value)) {
-                        return "Please enter a valid email";
+                        return context.loc.valEmailOne;
                       }
                       return null;
                     },
                     controller: userPrvider.emailAddressRegister,
                     keyboardType: TextInputType.emailAddress,
-                    hintText: "Enter your email",
+                    hintText: context.loc.hintEmail,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -105,16 +106,16 @@ class RegisterView extends StatelessWidget {
                   CustomTextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Please enter your password";
+                        return context.loc.valPasswordOne;
                       }
                       if (value.length < 7) {
-                        return "Password must be at least 6 characters";
+                        return context.loc.valPasswordTwo;
                       }
                       return null;
                     },
                     controller: userPrvider.passwordRegister,
                     keyboardType: TextInputType.visiblePassword,
-                    hintText: "Enter your password",
+                    hintText: context.loc.hintPassword,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -141,13 +142,13 @@ class RegisterView extends StatelessWidget {
                     validator: (value) {
                       if (userPrvider.passwordRegister.text.characters !=
                           userPrvider.passwordConfirm.text.characters) {
-                        return "Password does not match";
+                        return context.loc.match;
                       }
                       return null;
                     },
                     controller: userPrvider.passwordConfirm,
                     keyboardType: TextInputType.visiblePassword,
-                    hintText: "Confirm your password",
+                    hintText: context.loc.hintConfiremPassword,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(
                         left: 16,
@@ -192,7 +193,7 @@ class RegisterView extends StatelessWidget {
                               ),
                             )
                           : Text(
-                              "Sign up",
+                              context.loc.signUp,
                               style: AppStyles.textStyleMedium20(
                                 color: AppColor.white,
                               ),
@@ -204,7 +205,7 @@ class RegisterView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don’t have an account ? ",
+                        context.loc.alreadyHaveAnAccount,
                         style: AppStyles.textStyleRegular14(
                           color: isDark ? AppColor.darkGrey : AppColor.grey,
                         ),
@@ -214,7 +215,7 @@ class RegisterView extends StatelessWidget {
                           GoRouter.of(context).pop();
                         },
                         child: Text(
-                          "Signin",
+                          context.loc.login,
                           style: AppStyles.textStyleSemiBold14().copyWith(
                             color: isDark ? AppColor.dartBlue : AppColor.blue,
                             decoration: TextDecoration.underline,
@@ -228,7 +229,7 @@ class RegisterView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.04),
                   Text(
-                    "Or",
+                    context.loc.or,
                     style: AppStyles.textStyleMedium16(
                       color: isDark ? AppColor.dartBlue : AppColor.blue,
                     ),
@@ -264,7 +265,7 @@ class RegisterView extends StatelessWidget {
                               SvgPicture.asset(AppAssets.imagesIcGmail),
                               SizedBox(width: 16),
                               Text(
-                                "Sign up with Google",
+                                context.loc.loginWithGoogle,
                                 style: AppStyles.textStyleMedium18(
                                   color: AppColor.blue,
                                 ),

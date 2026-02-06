@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/Core/Widgets/toast_widget.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class DeleteEventProvider extends ChangeNotifier {
       CollectionReference collectionReference = FirebaseFirestore.instance
           .collection("events");
       collectionReference.doc(eventModel.id).delete();
-      CustomToastWidget.showSuccessToast("Event deleted successfully");
+      CustomToastWidget.showSuccessToast(context.loc.eventDeletedSuccessful);
       await Provider.of<FetchEventProvider>(context, listen: false).getEvents();
       GoRouter.of(context).pop();
       GoRouter.of(context).pop();

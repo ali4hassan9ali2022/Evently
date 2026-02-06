@@ -1,11 +1,17 @@
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Providers/Language_provider/language_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChangeThemeWidget extends StatelessWidget {
-  const ChangeThemeWidget({super.key, required this.title, required this.isDark, required this.isSys});
+  const ChangeThemeWidget({
+    super.key,
+    required this.title,
+    required this.isDark,
+    required this.isSys,
+  });
 
   final String title;
   final bool isDark;
@@ -14,7 +20,6 @@ class ChangeThemeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    
 
     return Row(
       children: [
@@ -75,7 +80,9 @@ class ChangeLanguageWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitleOne,
-    required this.subtitleTwo, required this.isDark, required this.isSys,
+    required this.subtitleTwo,
+    required this.isDark,
+    required this.isSys,
   });
   final String title;
   final Widget subtitleOne;
@@ -84,6 +91,8 @@ class ChangeLanguageWidget extends StatelessWidget {
   final bool isSys;
   @override
   Widget build(BuildContext context) {
+    final langProvider = Provider.of<LanguageProvider>(context);
+    final currentLang = langProvider.lang.languageCode;
     return Row(
       children: [
         Text(
@@ -96,22 +105,32 @@ class ChangeLanguageWidget extends StatelessWidget {
         Row(
           children: [
             GestureDetector(
+              onTap: () {
+                langProvider.saveLanguage("en");
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: AppColor.blue,
+                  color: currentLang == "en"
+                      ? AppColor.blue
+                      : AppColor.lightGrey,
                 ),
                 child: subtitleOne,
               ),
             ),
             SizedBox(width: 8),
             GestureDetector(
+              onTap: () {
+                langProvider.saveLanguage("ar");
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: AppColor.lightGrey,
+                  color: currentLang == "ar"
+                      ? AppColor.blue
+                      : AppColor.lightGrey,
                 ),
                 child: subtitleTwo,
               ),

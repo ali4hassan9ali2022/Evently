@@ -5,6 +5,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Event_Provider/add_event_providr.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/AddEvent/widget/choose_time_date_widget.dart';
@@ -34,7 +35,7 @@ class AddEventView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: size.height * 0.023),
-                      AppBarWidget(title: "Add event", isDark: isDark),
+                      AppBarWidget(title: context.loc.addEvent, isDark: isDark),
                       SizedBox(height: size.height * 0.02), //! 16
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -54,7 +55,7 @@ class AddEventView extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.02),
                       Text(
-                        "Title",
+                        context.loc.title,
                         textAlign: TextAlign.start,
                         style: AppStyles.textStyleMedium16(
                           color: isDark ? AppColor.white : AppColor.black,
@@ -63,11 +64,11 @@ class AddEventView extends StatelessWidget {
                       SizedBox(height: size.height * 0.01), //! 8
                       CustomTextFormField(
                         controller: addEventProvidr.titleController,
-                        hintText: "Event Title",
+                        hintText: context.loc.eventTitle,
                       ),
                       SizedBox(height: size.height * 0.02),
                       Text(
-                        "Description ",
+                        context.loc.description,
                         textAlign: TextAlign.start,
                         style: AppStyles.textStyleMedium16(
                           color: isDark ? AppColor.white : AppColor.black,
@@ -76,7 +77,7 @@ class AddEventView extends StatelessWidget {
                       SizedBox(height: size.height * 0.01), //! 8
                       CustomTextFormField(
                         controller: addEventProvidr.descriptionController,
-                        hintText: "Event Description....",
+                        hintText: context.loc.eventDescription,
                         maxLines: 5,
                       ),
                       SizedBox(height: size.height * 0.02),
@@ -86,9 +87,9 @@ class AddEventView extends StatelessWidget {
                           addEventProvidr.selectData(context: context);
                         },
                         icon: AppAssets.imagesIcCalendar,
-                        title: "Event Date",
+                        title: context.loc.eventDate,
                         dec: addEventProvidr.selectedDate == null
-                            ? "Choose date"
+                            ? context.loc.chooseDate
                             : "${addEventProvidr.selectedDate!.year}-${addEventProvidr.selectedDate!.month}-${addEventProvidr.selectedDate!.day}",
                       ),
                       SizedBox(height: size.height * 0.02),
@@ -98,9 +99,9 @@ class AddEventView extends StatelessWidget {
                           addEventProvidr.selectTime(context: context);
                         },
                         icon: AppAssets.imagesIcTime,
-                        title: "Event Time",
+                        title: context.loc.eventTime,
                         dec: addEventProvidr.selectedTime == null
-                            ? "Choose time"
+                            ? context.loc.chooseTime
                             : addEventProvidr.selectedTime!.format(context),
                       ),
                     ],
@@ -126,7 +127,7 @@ class AddEventView extends StatelessWidget {
                           ),
                         )
                       : Text(
-                          "Add event",
+                          context.loc.addEvent,
                           style: AppStyles.textStyleMedium20(
                             color: AppColor.white,
                           ),

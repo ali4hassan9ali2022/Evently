@@ -3,6 +3,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/on_boarding_model.dart';
 import 'package:evently/Providers/OnBoarding_provider/on_boarding_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
@@ -116,11 +117,11 @@ class OnBoardingWidget extends StatelessWidget {
             child: Center(
               child: currentIndex == AppHelper.onBoardingList.length - 1
                   ? Text(
-                      "Get Started",
+                      context.loc.getStarted,
                       style: AppStyles.textStyleMedium20(color: AppColor.white),
                     )
                   : Text(
-                      "Next",
+                      context.loc.next,
                       style: AppStyles.textStyleMedium20(color: AppColor.white),
                     ),
             ),

@@ -5,6 +5,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Event_Provider/update_event_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
@@ -45,7 +46,7 @@ class EditEventView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             SizedBox(height: size.height * 0.023),
-                            AppBarWidget(title: "Edit event", isDark: isDark),
+                            AppBarWidget(title: context.loc.editEvent, isDark: isDark),
                             SizedBox(height: size.height * 0.02),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
@@ -62,7 +63,7 @@ class EditEventView extends StatelessWidget {
                             ),
                             SizedBox(height: size.height * 0.02),
                             Text(
-                              "Title",
+                              context.loc.title,
                               style: AppStyles.textStyleMedium16(
                                 color: isDark ? AppColor.white : AppColor.black,
                               ),
@@ -70,11 +71,11 @@ class EditEventView extends StatelessWidget {
                             SizedBox(height: size.height * 0.01),
                             CustomTextFormField(
                               controller: update.titleController,
-                              hintText: "Event Title",
+                              hintText: context.loc.eventTitle,
                             ),
                             SizedBox(height: size.height * 0.02),
                             Text(
-                              "Description",
+                              context.loc.description,
                               style: AppStyles.textStyleMedium16(
                                 color: isDark ? AppColor.white : AppColor.black,
                               ),
@@ -82,7 +83,7 @@ class EditEventView extends StatelessWidget {
                             SizedBox(height: size.height * 0.01),
                             CustomTextFormField(
                               controller: update.descriptionController,
-                              hintText: "Event Description....",
+                              hintText: context.loc.eventDescription,
                               maxLines: 5,
                             ),
                             SizedBox(height: size.height * 0.02),
@@ -98,7 +99,7 @@ class EditEventView extends StatelessWidget {
                                 if (picked != null) update.updateDate(picked);
                               },
                               icon: AppAssets.imagesIcCalendar,
-                              title: "Event Date",
+                              title: context.loc.eventDate,
                               dec: DateFormat(
                                 'yyyy-MM-dd',
                               ).format(update.selectedDate),
@@ -114,7 +115,7 @@ class EditEventView extends StatelessWidget {
                                 if (picked != null) update.updateTime(picked);
                               },
                               icon: AppAssets.imagesIcTime,
-                              title: "Event Time",
+                              title: context.loc.eventTime,
                               dec: update.selectedTime.format(context),
                             ),
                           ],
@@ -142,7 +143,7 @@ class EditEventView extends StatelessWidget {
                                 ),
                               )
                             : Text(
-                                "Update event",
+                                context.loc.updateEvent,
                                 style: AppStyles.textStyleMedium20(
                                   color: AppColor.white,
                                 ),

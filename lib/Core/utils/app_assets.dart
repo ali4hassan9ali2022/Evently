@@ -61,6 +61,9 @@ abstract final class AppAssets {
   static const String imagesHomeAcitve = "assets/images/home_active.svg";
   static const String imagesHeartActive = "assets/images/heart_active.svg";
   static const String imagesUserActive = "assets/images/user_active.svg";
+  static const String imagesHome = "assets/images/home.svg";
+  static const String imagesHeart = "assets/images/heart.svg";
+  static const String imagesUser = "assets/images/user.svg";
 
   /// Assets for imagesIcBike
   /// assets/images/ic_bike.svg

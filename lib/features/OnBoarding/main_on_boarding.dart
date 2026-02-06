@@ -1,4 +1,7 @@
+import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
+import 'package:evently/Core/utils/extensions.dart';
+import 'package:evently/Models/on_boarding_model.dart';
 import 'package:evently/Providers/OnBoarding_provider/on_boarding_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/OnBoarding/Widgets/on_boarding_widget.dart';
@@ -16,6 +19,40 @@ class MainOnBoarding extends StatelessWidget {
     final isDark = themeProvider.themeMode == ThemeMode.dark;
     final isSys = themeProvider.themeMode == ThemeMode.system;
     final onBoardingProvider = Provider.of<OnBoardingProvider>(context);
+    List<OnBoardingModel> onBoardingList = [
+      OnBoardingModel(
+        image: AppAssets.imagesHotTrending,
+        title: context.loc.onBoardingTitleOne,
+        subTitle: context.loc.onBoardingDesOne,
+      ),
+      OnBoardingModel(
+        image: AppAssets.imagesBeingCreative1,
+        title: context.loc.onBoardingTitleTwo,
+        subTitle: context.loc.onBoardingDesTwo,
+      ),
+      OnBoardingModel(
+        image: AppAssets.imagesBeingCreative2,
+        title: context.loc.onBoardingTitleThree,
+        subTitle: context.loc.onBoardingDesThree,
+      ),
+    ];
+    List<OnBoardingModel> onBoardingListDark = [
+      OnBoardingModel(
+        image: AppAssets.darkOnBoardingOne,
+        title: context.loc.onBoardingTitleOne,
+        subTitle: context.loc.onBoardingDesOne,
+      ),
+      OnBoardingModel(
+        image: AppAssets.darkOnBoardingTwo,
+        title: context.loc.onBoardingTitleTwo,
+        subTitle: context.loc.onBoardingDesTwo,
+      ),
+      OnBoardingModel(
+        image: AppAssets.darkOnBoardingThree,
+        title: context.loc.onBoardingTitleThree,
+        subTitle: context.loc.onBoardingDesThree,
+      ),
+    ];
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -23,8 +60,8 @@ class MainOnBoarding extends StatelessWidget {
             PageView.builder(
               controller: onBoardingProvider.pageController,
               itemCount: (isDark || isSys)
-                  ? onBoardingProvider.onBoardingListDark.length
-                  : onBoardingProvider.onBoardingList.length,
+                  ? onBoardingListDark.length
+                  : onBoardingList.length,
               onPageChanged: (value) {
                 onBoardingProvider.selectOnPageView(value: value);
               },
@@ -32,8 +69,8 @@ class MainOnBoarding extends StatelessWidget {
                 currentIndex: onBoardingProvider.currentIndex,
                 pageController: onBoardingProvider.pageController,
                 item: (isDark || isSys)
-                    ? onBoardingProvider.onBoardingListDark[index]
-                    : onBoardingProvider.onBoardingList[index],
+                    ? onBoardingListDark[index]
+                    : onBoardingList[index],
               ),
             ),
             Positioned(
@@ -42,8 +79,8 @@ class MainOnBoarding extends StatelessWidget {
               child: SmoothPageIndicator(
                 controller: onBoardingProvider.pageController,
                 count: (isDark || isSys)
-                    ? onBoardingProvider.onBoardingListDark.length
-                    : onBoardingProvider.onBoardingList.length,
+                    ? onBoardingListDark.length
+                    : onBoardingList.length,
                 effect: ExpandingDotsEffect(
                   dotHeight: 7,
                   dotWidth: 9,

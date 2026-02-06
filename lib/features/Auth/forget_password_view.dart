@@ -4,6 +4,7 @@ import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
             child: Column(
               children: [
                 SizedBox(height: size.height * 0.023),
-                AppBarWidget(title: "Forget Password", isDark: isDark),
+                AppBarWidget(title: context.loc.forgetPassword, isDark: isDark),
                 SizedBox(height: size.height * 0.08),
                 Image.asset(AppAssets.imagesForgetPassword, fit: BoxFit.fill),
                 SizedBox(height: size.height * 0.05),
@@ -49,11 +50,11 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                         final email = emailController.text.trim();
                         if (email.isEmpty) {
                           CustomToastWidget.showErrorToast(
-                            "Please enter your email",
+                            context.loc.valEmail,
                           );
                           return;
                         }
-                        value.resetPassword(email);
+                        value.resetPassword(email, context);
                       },
                       width: double.infinity,
                       borderRadius: 16,
@@ -69,7 +70,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                                 ),
                               )
                             : Text(
-                                "Reset password",
+                                context.loc.resetPassword,
                                 style: AppStyles.textStyleMedium20(
                                   color: AppColor.white,
                                 ),

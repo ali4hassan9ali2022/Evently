@@ -4,6 +4,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
@@ -49,7 +50,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                 },
                 border: AppHelper.outlineInputBorder(),
                 controller: searchController,
-                hintText: "Search for event",
+                hintText: context.loc.searchForEvent,
                 suffixIcon: Padding(
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
@@ -68,7 +69,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                       child: const Center(child: CircularProgressIndicator()),
                     );
                   } else if (value.filterFavoriteEvents.isEmpty) {
-                    return const Center(child: Text("No events found"));
+                    return  Center(child: Text(context.loc.noEventsFount));
                   } else {
                     return Expanded(
                       child: ListView.builder(

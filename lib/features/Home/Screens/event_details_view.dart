@@ -2,6 +2,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Models/event_model.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Event_Provider/delete_event_provider.dart';
@@ -63,7 +64,7 @@ class EventDetailsView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Event details",
+                        context.loc.eventDetails,
                         textAlign: TextAlign.center,
                         style: AppStyles.textStyleMedium18().copyWith(
                           color: isDark ? AppColor.white : AppColor.black,
@@ -87,16 +88,16 @@ class EventDetailsView extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
-                                    title: Text("Delete"),
+                                    title: Text(context.loc.delete),
                                     content: Text(
-                                      "Are you sure you want to delete this event?",
+                                      context.loc.deleteSure,
                                     ),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: Text("Cancel"),
+                                        child: Text(context.loc.cancel),
                                       ),
                                       TextButton(
                                         onPressed: () {
@@ -108,7 +109,7 @@ class EventDetailsView extends StatelessWidget {
                                             eventModel: updatedEvent,
                                           );
                                         },
-                                        child: Text("Ok"),
+                                        child: Text(context.loc.ok),
                                       ),
                                     ],
                                   ),
@@ -193,7 +194,7 @@ class EventDetailsView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.02),
                   Text(
-                    "Description",
+                    context.loc.description,
                     textAlign: TextAlign.start,
                     style: AppStyles.textStyleMedium16(
                       color: isDark ? AppColor.white : AppColor.black,

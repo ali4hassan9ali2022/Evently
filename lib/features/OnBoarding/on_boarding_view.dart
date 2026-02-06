@@ -3,6 +3,7 @@ import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/app_styles.dart';
+import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/OnBoarding/Widgets/chanage_widget.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +43,14 @@ class OnBoardingView extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.03),
               Text(
-                "Personalize Your Experience",
+                context.loc.personalizeYourExperience,
                 style: AppStyles.textStyleSemiBold20(
                   color: (isDark || isSys) ? AppColor.white : AppColor.black,
                 ),
               ),
               SizedBox(height: size.height * 0.01),
               Text(
-                "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+                context.loc.choose,
                 style: AppStyles.textStyleRegular16(
                   color: (isDark || isSys) ? AppColor.darkGrey : AppColor.grey,
                 ),
@@ -58,18 +59,22 @@ class OnBoardingView extends StatelessWidget {
               ChangeLanguageWidget(
                 isDark: isDark,
                 isSys: isSys,
-                title: "Language",
+                title: context.loc.language,
                 subtitleOne: Text(
-                  "English",
+                  context.loc.english,
                   style: AppStyles.textStyleSemiBold14(color: AppColor.white),
                 ),
                 subtitleTwo: Text(
-                  "Arabic",
+                  context.loc.arabic,
                   style: AppStyles.textStyleSemiBold14(color: AppColor.blue),
                 ),
               ),
               SizedBox(height: size.height * 0.02),
-              ChangeThemeWidget(title: "Theme", isDark: isDark, isSys: isSys),
+              ChangeThemeWidget(
+                title: context.loc.theme,
+                isDark: isDark,
+                isSys: isSys,
+              ),
               SizedBox(height: size.height * 0.03),
               CustomButton(
                 onTap: () {
@@ -83,7 +88,7 @@ class OnBoardingView extends StatelessWidget {
                 color: (isDark || isSys) ? AppColor.dartBlue : AppColor.blue,
                 child: Center(
                   child: Text(
-                    "Let’s start",
+                    context.loc.letsStart,
                     style: AppStyles.textStyleMedium20(color: AppColor.white),
                   ),
                 ),
