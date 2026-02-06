@@ -6,6 +6,7 @@ import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
+import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/Home/Widgets/evently_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,6 +32,8 @@ class _FavoriteViewState extends State<FavoriteView> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var fav = Provider.of<FavoriteProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(),
@@ -79,6 +82,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                               );
                             },
                             child: EventlyWidget(
+                              isDark: isDark,
                               evvent: value.filterFavoriteEvents[index],
                               userModel: Provider.of<UserProvider>(
                                 context,

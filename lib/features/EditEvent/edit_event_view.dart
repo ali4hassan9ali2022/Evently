@@ -50,7 +50,7 @@ class EditEventView extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
-                                update.selectCategory.imagePath,
+                                update.selectCategory.getImagePath(isDark),
                                 height: size.height * .25,
                               ),
                             ),

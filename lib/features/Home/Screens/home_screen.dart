@@ -105,6 +105,7 @@ class HomeScreen extends StatelessWidget {
                     return const Center(child: Text("No events found"));
                   } else {
                     return EventlyListView(
+                      isDark: isDark,
                       userModel: Provider.of<UserProvider>(context).userModel!,
                       evvent: value.filteredEvents,
                       itemCount: value.filteredEvents.length,

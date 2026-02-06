@@ -124,13 +124,13 @@ class EventDetailsView extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      updatedEvent.categoryModel.imagePath,
+                      updatedEvent.categoryModel.getImagePath(isDark),
                       height: MediaQuery.of(context).size.height * .25,
                     ),
                   ),
                   SizedBox(height: size.height * 0.02),
                   Text(
-                    updatedEvent.title, // 🔥
+                    updatedEvent.title,
                     style: AppStyles.textStyleMedium18(
                       color: isDark ? AppColor.white : AppColor.black,
                     ),

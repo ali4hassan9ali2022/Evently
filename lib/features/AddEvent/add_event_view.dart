@@ -39,8 +39,9 @@ class AddEventView extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          addEventProvidr.selectCategory.imagePath,
+                          addEventProvidr.selectCategory.getImagePath(isDark),
                           height: MediaQuery.of(context).size.height * .25,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       SizedBox(height: size.height * 0.02), //! 16

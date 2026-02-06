@@ -41,6 +41,7 @@ class AddEventProvidr extends ChangeNotifier {
           listen: false,
         ).userModel!.userId,
         categoryModel: selectCategory,
+        
         title: titleController.text,
         description: descriptionController.text,
         dateTime: selectedDate!,

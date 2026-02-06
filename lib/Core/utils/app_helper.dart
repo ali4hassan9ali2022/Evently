@@ -40,31 +40,37 @@ abstract final class AppHelper {
   static CategoryModel all = CategoryModel(
     name: "all",
     imagePath: "",
+    darkImagePath: "",
     icon: Icons.border_all_rounded,
   );
   static CategoryModel sports = CategoryModel(
     name: "Sports",
     imagePath: AppAssets.imagesSport1,
+    darkImagePath: AppAssets.imagesSport,
     icon: Icons.bike_scooter,
   );
   static CategoryModel book = CategoryModel(
     name: "BookingClub",
     imagePath: AppAssets.imagesBookClub1,
+    darkImagePath: AppAssets.imagesBookClub,
     icon: Icons.menu_book,
   );
   static CategoryModel birthday = CategoryModel(
     name: "Birthday",
     imagePath: AppAssets.imagesBirthday1,
+    darkImagePath: AppAssets.imagesBirthday,
     icon: Icons.cake,
   );
   static CategoryModel meet = CategoryModel(
     name: "Meeting",
     imagePath: AppAssets.imagesMeeting1,
+    darkImagePath: AppAssets.imagesMeeting,
     icon: Icons.meeting_room,
   );
   static CategoryModel exhibition = CategoryModel(
     name: "Exhibition",
     imagePath: AppAssets.imagesExhibition1,
+    darkImagePath: AppAssets.imagesExhibition,
     icon: Icons.access_time_filled_rounded,
   );
   static List<CategoryModel> allCategories = [

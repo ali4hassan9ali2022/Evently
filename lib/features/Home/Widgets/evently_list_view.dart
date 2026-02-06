@@ -11,13 +11,14 @@ class EventlyListView extends StatelessWidget {
     this.physics,
     this.shrinkWrap,
     this.itemCount,
-    required this.evvent, required this.userModel,
+    required this.evvent, required this.userModel, required this.isDark,
   });
   final ScrollPhysics? physics;
   final bool? shrinkWrap;
   final int? itemCount;
   final List<EventModel> evvent;
   final UserModel userModel;
+  final bool isDark;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -32,6 +33,7 @@ class EventlyListView extends StatelessWidget {
             ).push(AppRouter.eventDetails, extra: evvent[index]);
           },
           child: EventlyWidget(evvent: evvent[index], 
+          isDark: isDark,
           userModel: userModel,
           ),
         );

@@ -11,10 +11,11 @@ class EventlyWidget extends StatelessWidget {
   const EventlyWidget({
     super.key,
     required this.evvent,
-    required this.userModel,
+    required this.userModel, required this.isDark,
   });
   final EventModel evvent;
   final UserModel userModel;
+  final bool isDark;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +27,7 @@ class EventlyWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              evvent.categoryModel.imagePath,
+              evvent.categoryModel.getImagePath(isDark),
               fit: BoxFit.fill,
               height: double.infinity,
               width: double.infinity,
