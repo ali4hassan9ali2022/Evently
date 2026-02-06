@@ -15,9 +15,7 @@ abstract class ThemeApp {
       border: AppHelper.outlineInputBorder(color: AppColor.lightGrey),
       enabledBorder: AppHelper.outlineInputBorder(color: AppColor.lightGrey),
       focusedBorder: AppHelper.outlineInputBorder(color: AppColor.lightGrey),
-      hintStyle: AppStyles.textStyleRegular14().copyWith(
-        color: AppColor.lightGrey,
-      ),
+      hintStyle: AppStyles.textStyleRegular14().copyWith(color: AppColor.grey2),
     ),
     textTheme: TextTheme(
       titleLarge: AppStyles.textStyleMedium20(color: AppColor.black),

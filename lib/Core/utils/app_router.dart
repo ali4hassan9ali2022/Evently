@@ -34,12 +34,12 @@ abstract final class AppRouter {
       GoRoute(path: register, builder: (context, state) => RegisterView()),
       GoRoute(
         path: forgetPassword,
-        builder: (context, state) => ForgetPasswordView(),
+        builder: (context, state) {
+          final email = state.extra as String?;
+          return ForgetPasswordView(email: email ?? '');
+        },
       ),
-      GoRoute(
-        path: mainView,
-        builder: (context, state) => MainView(),
-      ),
+      GoRoute(path: mainView, builder: (context, state) => MainView()),
       GoRoute(
         path: addEventlyView,
         builder: (context, state) => AddEventView(),

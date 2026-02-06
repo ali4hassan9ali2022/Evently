@@ -129,9 +129,12 @@ class RegisterView extends StatelessWidget {
                         width: 24,
                       ),
                     ),
+                    obscureText: userPrvider.isObsecure,
                     suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.visibility_off_outlined),
+                      onPressed: () {
+                        userPrvider.changePasswordVisibility();
+                      },
+                      icon: Icon(userPrvider.suffix),
                     ),
                   ),
                   SizedBox(height: size.height * 0.02),
@@ -159,9 +162,12 @@ class RegisterView extends StatelessWidget {
                         width: 24,
                       ),
                     ),
+                    obscureText: userPrvider.isObsecureOne,
                     suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.visibility_off_outlined),
+                      onPressed: () {
+                        userPrvider.changePasswordVisibilityOne();
+                      },
+                      icon: Icon(userPrvider.suffixOne),
                     ),
                   ),
                   SizedBox(height: size.height * 0.064),

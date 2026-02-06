@@ -108,4 +108,51 @@ class UserProvider extends ChangeNotifier {
     UserModel userModel = UserModel.fromJson(json);
     return userModel;
   }
+
+  IconData suffix = Icons.visibility_off_outlined;
+  bool isObsecure = true;
+  void changePasswordVisibility() {
+    isObsecure = !isObsecure;
+
+    suffix = isObsecure
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    notifyListeners();
+  }
+
+  IconData suffixOne = Icons.visibility_off_outlined;
+  bool isObsecureOne = true;
+  void changePasswordVisibilityOne() {
+    isObsecureOne = !isObsecureOne;
+
+    suffixOne = isObsecureOne
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    notifyListeners();
+  }
+
+  //! Reset Password
+  Future<void> resetPassword(String email) async {
+    if (isLoading) return;
+    isLoading = true;
+    notifyListeners();
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      CustomToastWidget.showSuccessToast(
+        "If this email exists, a reset link has been sent",
+      );
+      log("If this email exists, a reset link has been sent");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        CustomToastWidget.showErrorToast("No user found for that email.");
+        log("No user found for that email.");
+      }
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+      log(e.toString());
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 }

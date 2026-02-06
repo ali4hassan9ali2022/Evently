@@ -45,7 +45,9 @@ class LogInView extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.03),
                   CustomTextFormField(
-                    style: TextStyle(color: AppColor.white),
+                    style: TextStyle(
+                      color: isDark ? AppColor.white : AppColor.black,
+                    ),
                     controller: userPrvider.emailAddressLogin,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -84,7 +86,9 @@ class LogInView extends StatelessWidget {
                       }
                       return null;
                     },
-                    style: TextStyle(color: AppColor.white),
+                    style: TextStyle(
+                      color: isDark ? AppColor.white : AppColor.black,
+                    ),
                     controller: userPrvider.passwordLogin,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: "Enter your password",
@@ -101,15 +105,24 @@ class LogInView extends StatelessWidget {
                         width: 24,
                       ),
                     ),
+                    obscureText: userPrvider.isObsecure,
                     suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.visibility_off_outlined),
+                      onPressed: () {
+                        userPrvider.changePasswordVisibility();
+                      },
+                      icon: Icon(
+                        userPrvider.suffix,
+                        color: isDark ? AppColor.darkGrey : AppColor.grey,
+                      ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.001),
                   GestureDetector(
                     onTap: () {
-                      GoRouter.of(context).push(AppRouter.forgetPassword);
+                      GoRouter.of(context).push(
+                        AppRouter.forgetPassword,
+                        extra: userPrvider.emailAddressLogin.text.trim(),
+                      );
                     },
                     child: Text(
                       "Forget Password?",
