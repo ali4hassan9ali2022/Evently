@@ -3,7 +3,6 @@ import 'package:evently/Core/Widgets/custom_text_form_field.dart';
 import 'package:evently/Core/utils/app_assets.dart';
 import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_styles.dart';
-import 'package:evently/Core/utils/firebase_helper.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 
@@ -238,7 +237,9 @@ class RegisterView extends StatelessWidget {
                   SizedBox(height: size.height * 0.03),
                   CustomButton(
                     onTap: () async {
-                      await FirebaseHelper.signInWithGoogle();
+                      // await FirebaseHelper.signInWithGoogle();
+                    await  userPrvider.signInWithGoogle(context: context);
+                    
                     },
                     color: isDark ? AppColor.darkBlue2 : AppColor.white,
                     border: Border.all(
@@ -247,19 +248,29 @@ class RegisterView extends StatelessWidget {
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
                     borderRadius: 16,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(AppAssets.imagesIcGmail),
-                        SizedBox(width: 16),
-                        Text(
-                          "Sign up with Google",
-                          style: AppStyles.textStyleMedium18(
-                            color: AppColor.blue,
+                    child: userPrvider.isLoadingGoogle
+                        ? Center(
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: isDark ? AppColor.white : AppColor.blue,
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppAssets.imagesIcGmail),
+                              SizedBox(width: 16),
+                              Text(
+                                "Sign up with Google",
+                                style: AppStyles.textStyleMedium18(
+                                  color: AppColor.blue,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),

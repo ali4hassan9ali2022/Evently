@@ -54,7 +54,6 @@ class FavoriteProvider extends ChangeNotifier {
     var user = Provider.of<UserProvider>(context, listen: false);
     if (user.userModel!.favoriteEvents.isEmpty) {
       isLoading = false;
-      notifyListeners();
       return [];
     }
     CollectionReference eventsCollection = FirebaseFirestore.instance

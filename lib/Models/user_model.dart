@@ -3,9 +3,11 @@ class UserModel {
   final String userId;
   final String name;
   final String email;
+  final String? photoUrl;
   List<String> favoriteEvents;
 
   UserModel({required this.userId, required this.name, required this.email,
+  this.photoUrl,
   this.favoriteEvents = const [],
   });
   toJson() {
@@ -14,6 +16,7 @@ class UserModel {
       "name": name,
       "email": email,
       "favorites" : favoriteEvents,
+      "photoUrl" : photoUrl,
     };
   }
   factory UserModel.fromJson(json) {
@@ -22,6 +25,7 @@ class UserModel {
       name: json['name'],
       email: json['email'],
       favoriteEvents: List<String>.from(json['favorites']),
+      photoUrl: json['photoUrl'],
     );
   }
 }

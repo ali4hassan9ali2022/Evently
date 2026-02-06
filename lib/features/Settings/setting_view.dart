@@ -29,11 +29,18 @@ class SettingView extends StatelessWidget {
             CircleAvatar(
               radius: 58,
               backgroundColor: AppColor.blue,
-              child: Image.asset(
-                AppAssets.imagesRoute,
-                color: AppColor.white,
-                fit: BoxFit.cover,
-              ),
+              child: userProvider.userModel!.photoUrl != null
+                  ? CircleAvatar(
+                      radius: 58,
+                      backgroundImage: NetworkImage(
+                        userProvider.userModel!.photoUrl!,
+                      ),
+                    )
+                  : Image.asset(
+                      AppAssets.imagesRoute,
+                      color: AppColor.white,
+                      fit: BoxFit.cover,
+                    ),
             ),
             SizedBox(height: size.height * 0.02), //! 16
             Text(

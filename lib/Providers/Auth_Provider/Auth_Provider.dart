@@ -7,6 +7,7 @@ import 'package:evently/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class UserProvider extends ChangeNotifier {
   //! Register
@@ -152,6 +153,69 @@ class UserProvider extends ChangeNotifier {
       log(e.toString());
     } finally {
       isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isLoadingGoogle = false;
+  //! Sign With Google
+  Future<void> signInWithGoogle({required BuildContext context}) async {
+    if (isLoadingGoogle) {
+      CustomToastWidget.showErrorToast(
+        "Google sign-in is already in progress.",
+      );
+      return;
+    }
+
+    isLoadingGoogle = true;
+    notifyListeners();
+
+    try {
+      await GoogleSignIn().signOut();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        CustomToastWidget.showErrorToast("Google sign-in was cancelled.");
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+
+      final userRef = FirebaseFirestore.instance
+          .collection('user')
+          .doc(userCredential.user!.uid);
+
+      final doc = await userRef.get();
+
+      if (!doc.exists) {
+        userModel = UserModel(
+          userId: userCredential.user!.uid,
+          name: googleUser.displayName ?? '',
+          email: googleUser.email,
+          photoUrl: googleUser.photoUrl ?? '',
+        );
+
+        await addUser(userModel: userModel!);
+      }
+
+      userModel = await getUser(userId: userCredential.user!.uid);
+
+      GoRouter.of(context).pushReplacement(AppRouter.mainView);
+      CustomToastWidget.showSuccessToast("Google sign-in successful.");
+    } catch (e) {
+      CustomToastWidget.showErrorToast(e.toString());
+      log(e.toString());
+    } finally {
+      isLoadingGoogle = false;
       notifyListeners();
     }
   }
