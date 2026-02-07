@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/Core/Widgets/toast_widget.dart';
 import 'package:evently/Core/utils/app_helper.dart';
 import 'package:evently/Models/category_model.dart';
 import 'package:evently/Models/event_model.dart';
@@ -10,6 +11,7 @@ class FetchEventProvider extends ChangeNotifier {
   CategoryModel selectedCategory = AppHelper.all;
   List<EventModel> filteredEvents = [];
   List<EventModel> events = [];
+  List<EventModel> myEvents = [];
   bool isLoading = false;
   //! Get Events
   Future<List<EventModel>> getEvents() async {
@@ -50,5 +52,33 @@ class FetchEventProvider extends ChangeNotifier {
     selectedCategory = category;
     filterEvents();
     notifyListeners();
+  }
+
+  //! Fetch My Events
+
+  bool isLoadingGetMyEvents = false;
+  Future<List<EventModel>> getMyEvents(String userId) async {
+    myEvents.clear();
+    isLoadingGetMyEvents = true;
+    try {
+      CollectionReference eventCollection = FirebaseFirestore.instance
+          .collection("events");
+      QuerySnapshot querySnapshot = await eventCollection
+          .where("ownerId", isEqualTo: userId)
+          .get();
+      for (var event in querySnapshot.docs) {
+        myEvents.add(EventModel.fromJson(event));
+      }
+      log("Fetch events = ${myEvents.length}");
+      return myEvents;
+    } catch (e) {
+      isLoadingGetMyEvents = false;
+      notifyListeners();
+      CustomToastWidget.showErrorToast(e.toString());
+      return [];
+    } finally {
+      isLoadingGetMyEvents = false;
+      notifyListeners();
+    }
   }
 }

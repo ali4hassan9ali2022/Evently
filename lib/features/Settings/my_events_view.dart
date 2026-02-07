@@ -2,7 +2,7 @@ import 'package:evently/Core/utils/app_color.dart';
 import 'package:evently/Core/utils/app_router.dart';
 import 'package:evently/Core/utils/extensions.dart';
 import 'package:evently/Providers/Auth_Provider/Auth_Provider.dart';
-import 'package:evently/Providers/Favorite_providrer/favorite_provider.dart';
+import 'package:evently/Providers/Event_Provider/fetch_event_provider.dart';
 import 'package:evently/Providers/Theme_Provider/theme_provider.dart';
 import 'package:evently/features/Home/Widgets/evently_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,14 @@ class MyEventsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fetchProvider = Provider.of<FetchEventProvider>(
+      context,
+      listen: false,
+    );
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (fetchProvider.myEvents.isEmpty && !fetchProvider.isLoadingGetMyEvents) {
+      fetchProvider.getMyEvents(userProvider.userModel!.userId);
+    }
     var size = MediaQuery.of(context).size;
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDark = themeProvider.themeMode == ThemeMode.dark;
@@ -35,29 +43,31 @@ class MyEventsView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: size.height * 0.02),
-              Consumer<FavoriteProvider>(
+              Consumer<FetchEventProvider>(
                 builder: (context, value, child) {
-                  if (value.isLoading) {
+                  if (value.isLoadingGetMyEvents) {
                     return Expanded(
                       child: const Center(child: CircularProgressIndicator()),
                     );
-                  } else if (value.filterFavoriteEvents.isEmpty) {
-                    return Center(child: Text(context.loc.noEventsFount));
+                  } else if (value.myEvents.isEmpty) {
+                    return Expanded(
+                      child: Center(child: Text(context.loc.noEventsFount)),
+                    );
                   } else {
                     return Expanded(
                       child: ListView.builder(
-                        itemCount: value.filterFavoriteEvents.length,
+                        itemCount: value.myEvents.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
                               GoRouter.of(context).push(
                                 AppRouter.eventDetails,
-                                extra: value.filterFavoriteEvents[index],
+                                extra: value.myEvents[index],
                               );
                             },
                             child: EventlyWidget(
                               isDark: isDark,
-                              evvent: value.filterFavoriteEvents[index],
+                              evvent: value.myEvents[index],
                               userModel: Provider.of<UserProvider>(
                                 context,
                                 listen: false,
